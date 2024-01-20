@@ -1,0 +1,15 @@
+[package]
+name = "packagekit"
+version = "0.0.1"
+edition = "2021"
+
+[lib]
+name = "packagekit"
+
+[dependencies]
+bitflags = "1"
+ffi = { package = "package-kit-glib-sys", path = "../package-kit-glib-sys", features = ["v1_2_5"] }
+gio = { git = "https://github.com/gtk-rs/gtk-rs-core" }
+glib = { git = "https://github.com/gtk-rs/gtk-rs-core" }
+libc = "0.2"
+

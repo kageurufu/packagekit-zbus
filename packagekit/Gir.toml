@@ -1,0 +1,91 @@
+[options]
+library = "PackageKitGlib"
+version = "1.0"
+target_path = "."
+work_mode = "normal"
+
+generate = [
+    "PackageKitGlib.AuthorizeEnum",
+    "PackageKitGlib.Bitfield",
+    "PackageKitGlib.Category",
+    "PackageKitGlib.ClientError",
+    "PackageKitGlib.ClientHelper",
+    "PackageKitGlib.Control",
+    "PackageKitGlib.ControlError",
+    "PackageKitGlib.Desktop",
+    "PackageKitGlib.Details",
+    "PackageKitGlib.DistroUpgrade",
+    "PackageKitGlib.DistroUpgradeEnum",
+    #TODO: "PackageKitGlib.EnumMatch",
+    "PackageKitGlib.Error",
+    "PackageKitGlib.ErrorEnum",
+    "PackageKitGlib.EulaRequired",
+    "PackageKitGlib.ExitEnum",
+    "PackageKitGlib.Files",
+    "PackageKitGlib.FilterEnum",
+    "PackageKitGlib.GroupEnum",
+    "PackageKitGlib.InfoEnum",
+    "PackageKitGlib.ItemProgress",
+    "PackageKitGlib.MediaChangeRequired",
+    "PackageKitGlib.MediaTypeEnum",
+    "PackageKitGlib.NetworkEnum",
+    "PackageKitGlib.OfflineAction",
+    "PackageKitGlib.OfflineError",
+    "PackageKitGlib.OfflineFlags",
+    "PackageKitGlib.Package",
+    "PackageKitGlib.PackageSack",
+    "PackageKitGlib.PackageSackFilterFunc",
+    #TODO: "PackageKitGlib.PackageSackResults",
+    "PackageKitGlib.PackageSackSortType",
+    "PackageKitGlib.Progress",
+    "PackageKitGlib.ProgressType",
+    "PackageKitGlib.ProgressCallback",
+    "PackageKitGlib.RepoDetail",
+    "PackageKitGlib.RepoSignatureRequired",
+    "PackageKitGlib.RequireRestart",
+    "PackageKitGlib.RestartEnum",
+    "PackageKitGlib.Results",
+    "PackageKitGlib.RoleEnum",
+    "PackageKitGlib.SigTypeEnum",
+    "PackageKitGlib.Source",
+    "PackageKitGlib.StatusEnum",
+    "PackageKitGlib.Task",
+    "PackageKitGlib.TransactionFlagEnum",
+    "PackageKitGlib.TransactionList",
+    "PackageKitGlib.TransactionPast",
+    "PackageKitGlib.UpdateDetail",
+    "PackageKitGlib.UpdateStateEnum",
+    "PackageKitGlib.UpgradeKindEnum",
+]
+
+manual = [
+    "Gio.AsyncReadyCallback",
+    "Gio.AsyncResult",
+    "Gio.Cancellable",
+    "Gio.File",
+    "Gio.FileMonitor",
+    "Gio.Socket",
+    "GLib.Date",
+    "GLib.DateTime",
+    "GLib.Error",
+    #TODO: "GLib.OptionGroup",
+]
+
+[[object]]
+name = "PackageKitGlib.*"
+status = "generate"
+	[[object.constant]]
+	pattern = "*"
+	ignore = true
+    [[object.function]]
+    name = "offline_auth_set_prepared_ids"
+    ignore = true
+    [[object.function]]
+    name = "offline_get_prepared_upgrade"
+    ignore = true
+[[object]]
+name = "PackageKitGlib.Client"
+status = "generate"
+    [[object.function]]
+    name = "create_helper_argv_envp"
+    ignore = true

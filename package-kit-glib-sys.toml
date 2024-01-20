@@ -1,0 +1,10 @@
+[options]
+library = "PackageKitGlib"
+version = "1.0"
+external_libraries = [
+	"GLib",
+    "Gio",
+    "GObject",
+]
+target_path = "package-kit-glib-sys"
+work_mode = "sys"
