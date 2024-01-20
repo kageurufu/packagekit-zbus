@@ -58,6 +58,7 @@ trait PackageKit {
     /// SuggestDaemonQuit method
     fn suggest_daemon_quit(&self) -> zbus::Result<()>;
 
+    /*TODO: fix signal serialization
     /// RepoListChanged signal
     #[dbus_proxy(signal)]
     fn repo_list_changed(&self) -> zbus::Result<()>;
@@ -73,6 +74,7 @@ trait PackageKit {
     /// UpdatesChanged signal
     #[dbus_proxy(signal)]
     fn updates_changed(&self) -> zbus::Result<()>;
+    */
 
     /// BackendAuthor property
     #[dbus_proxy(property)]

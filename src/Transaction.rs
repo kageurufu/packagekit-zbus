@@ -135,6 +135,7 @@ trait Transaction {
     /// WhatProvides method
     fn what_provides(&self, filter: u64, values: &[&str]) -> zbus::Result<()>;
 
+    /*TODO: fix signal deserialization
     /// Category signal
     #[dbus_proxy(signal)]
     fn category(
@@ -277,6 +278,7 @@ trait Transaction {
             &str,
         )],
     ) -> zbus::Result<()>;
+    */
 
     /// AllowCancel property
     #[dbus_proxy(property)]
