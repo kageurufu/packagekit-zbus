@@ -1,0 +1,8 @@
+[submodule "PackageKit"]
+	path = PackageKit
+	url = https://github.com/PackageKit/PackageKit.git
+	branch = main
+[submodule "zbus"]
+	path = zbus
+	url = https://github.com/jackpot51/zbus
+	branch = main
