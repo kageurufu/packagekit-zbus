@@ -126,58 +126,6 @@ impl Package {
         }
     }
 
-    /// Adds a package_id to an existing list.
-    /// ## `package_ids`
-    /// a string array of package_id's
-    /// ## `package_id`
-    /// a single package_id
-    ///
-    /// # Returns
-    ///
-    /// the new list, free `g_strfreev()`
-    #[cfg(feature = "v0_5_2")]
-    #[cfg_attr(docsrs, doc(cfg(feature = "v0_5_2")))]
-    #[doc(alias = "pk_package_ids_add_id")]
-    pub fn ids_add_id(package_ids: &str, package_id: &str) -> Vec<glib::GString> {
-        unsafe {
-            FromGlibPtrContainer::from_glib_full(ffi::pk_package_ids_add_id(package_ids.to_glib_none().0, package_id.to_glib_none().0))
-        }
-    }
-
-    /// Adds a package_id to an existing list.
-    /// ## `package_ids`
-    /// a string array of package_id's
-    /// ## `package_ids_new`
-    /// a string array of package_id's
-    ///
-    /// # Returns
-    ///
-    /// the new list, free `g_strfreev()`
-    #[cfg(feature = "v0_5_2")]
-    #[cfg_attr(docsrs, doc(cfg(feature = "v0_5_2")))]
-    #[doc(alias = "pk_package_ids_add_ids")]
-    pub fn ids_add_ids(package_ids: &str, package_ids_new: &str) -> Vec<glib::GString> {
-        unsafe {
-            FromGlibPtrContainer::from_glib_full(ffi::pk_package_ids_add_ids(package_ids.to_glib_none().0, package_ids_new.to_glib_none().0))
-        }
-    }
-
-    /// Check the string array of package_id's for validity
-    /// ## `package_ids`
-    /// a string array of package_id's
-    ///
-    /// # Returns
-    ///
-    /// [`true`] if the package_ids are all valid.
-    #[cfg(feature = "v0_5_2")]
-    #[cfg_attr(docsrs, doc(cfg(feature = "v0_5_2")))]
-    #[doc(alias = "pk_package_ids_check")]
-    pub fn ids_check(package_ids: &str) -> bool {
-        unsafe {
-            from_glib(ffi::pk_package_ids_check(package_ids.to_glib_none().0))
-        }
-    }
-
     /// Form a composite string array of package_id's from
     /// a single package_id
     /// ## `package_id`
@@ -209,58 +157,6 @@ impl Package {
     pub fn ids_from_string(package_id: &str) -> Vec<glib::GString> {
         unsafe {
             FromGlibPtrContainer::from_glib_full(ffi::pk_package_ids_from_string(package_id.to_glib_none().0))
-        }
-    }
-
-    /// Finds out if a package ID is present in the list.
-    /// ## `package_ids`
-    /// a string array of package_id's
-    /// ## `package_id`
-    /// a single package_id
-    ///
-    /// # Returns
-    ///
-    /// [`true`] if the package ID is present
-    #[cfg(feature = "v0_5_2")]
-    #[cfg_attr(docsrs, doc(cfg(feature = "v0_5_2")))]
-    #[doc(alias = "pk_package_ids_present_id")]
-    pub fn ids_present_id(package_ids: &str, package_id: &str) -> bool {
-        unsafe {
-            from_glib(ffi::pk_package_ids_present_id(package_ids.to_glib_none().0, package_id.to_glib_none().0))
-        }
-    }
-
-    /// Removes a package ID from the the list.
-    /// ## `package_ids`
-    /// a string array of package_id's
-    /// ## `package_id`
-    /// a single package_id
-    ///
-    /// # Returns
-    ///
-    /// the new list, free `g_strfreev()`
-    #[cfg(feature = "v0_5_2")]
-    #[cfg_attr(docsrs, doc(cfg(feature = "v0_5_2")))]
-    #[doc(alias = "pk_package_ids_remove_id")]
-    pub fn ids_remove_id(package_ids: &str, package_id: &str) -> Vec<glib::GString> {
-        unsafe {
-            FromGlibPtrContainer::from_glib_full(ffi::pk_package_ids_remove_id(package_ids.to_glib_none().0, package_id.to_glib_none().0))
-        }
-    }
-
-    /// Cats the string array of package_id's into one delimited string
-    /// ## `package_ids`
-    /// a string array of package_id's
-    ///
-    /// # Returns
-    ///
-    /// a string representation of all the package_id's.
-    #[cfg(feature = "v0_5_2")]
-    #[cfg_attr(docsrs, doc(cfg(feature = "v0_5_2")))]
-    #[doc(alias = "pk_package_ids_to_string")]
-    pub fn ids_to_string(package_ids: &str) -> Option<glib::GString> {
-        unsafe {
-            from_glib_full(ffi::pk_package_ids_to_string(package_ids.to_glib_none().0))
         }
     }
 }

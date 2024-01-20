@@ -9,9 +9,6 @@ pub use self::category::Category;
 mod client;
 pub use self::client::Client;
 
-mod client_helper;
-pub use self::client_helper::ClientHelper;
-
 mod control;
 pub use self::control::Control;
 
@@ -90,7 +87,6 @@ pub use self::enums::NetworkEnum;
 pub use self::enums::OfflineAction;
 pub use self::enums::OfflineError;
 pub use self::enums::PackageSackSortType;
-pub use self::enums::ProgressType;
 pub use self::enums::RestartEnum;
 pub use self::enums::RoleEnum;
 pub use self::enums::SigTypeEnum;
@@ -112,7 +108,6 @@ pub(crate) mod functions;
 pub(crate) mod traits {
     pub use super::category::CategoryExt;
     pub use super::client::ClientExt;
-    pub use super::client_helper::ClientHelperExt;
     pub use super::control::ControlExt;
     pub use super::desktop::DesktopExt;
     pub use super::details::DetailsExt;

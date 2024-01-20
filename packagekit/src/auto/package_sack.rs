@@ -240,7 +240,7 @@ pub trait PackageSackExt: IsA<PackageSack> + sealed::Sealed + 'static {
 
     //#[doc(alias = "pk_package_sack_get_details_async")]
     //#[doc(alias = "get_details_async")]
-    //fn details_async<P: Fn(&Progress, &ProgressType) + 'static, Q: FnOnce(Result<(), glib::Error>) + 'static>(&self, cancellable: Option<&impl IsA<gio::Cancellable>>, progress_callback: P, callback: Q) {
+    //fn details_async<P: FnOnce(Result<(), glib::Error>) + 'static>(&self, cancellable: Option<&impl IsA<gio::Cancellable>>, progress_callback: /*Unimplemented*/Fn(&Progress, /*Ignored*/ProgressType), callback: P) {
     //    unsafe { TODO: call ffi:pk_package_sack_get_details_async() }
     //}
 
@@ -315,7 +315,7 @@ pub trait PackageSackExt: IsA<PackageSack> + sealed::Sealed + 'static {
     //#[cfg_attr(docsrs, doc(cfg(feature = "v0_5_2")))]
     //#[doc(alias = "pk_package_sack_get_update_detail_async")]
     //#[doc(alias = "get_update_detail_async")]
-    //fn update_detail_async<P: Fn(&Progress, &ProgressType) + 'static, Q: FnOnce(Result<(), glib::Error>) + 'static>(&self, cancellable: Option<&impl IsA<gio::Cancellable>>, progress_callback: P, callback: Q) {
+    //fn update_detail_async<P: FnOnce(Result<(), glib::Error>) + 'static>(&self, cancellable: Option<&impl IsA<gio::Cancellable>>, progress_callback: /*Unimplemented*/Fn(&Progress, /*Ignored*/ProgressType), callback: P) {
     //    unsafe { TODO: call ffi:pk_package_sack_get_update_detail_async() }
     //}
 
@@ -402,7 +402,7 @@ pub trait PackageSackExt: IsA<PackageSack> + sealed::Sealed + 'static {
     //#[cfg(feature = "v0_5_2")]
     //#[cfg_attr(docsrs, doc(cfg(feature = "v0_5_2")))]
     //#[doc(alias = "pk_package_sack_resolve_async")]
-    //fn resolve_async<P: Fn(&Progress, &ProgressType) + 'static, Q: FnOnce(Result<(), glib::Error>) + 'static>(&self, cancellable: Option<&impl IsA<gio::Cancellable>>, progress_callback: P, callback: Q) {
+    //fn resolve_async<P: FnOnce(Result<(), glib::Error>) + 'static>(&self, cancellable: Option<&impl IsA<gio::Cancellable>>, progress_callback: /*Unimplemented*/Fn(&Progress, /*Ignored*/ProgressType), callback: P) {
     //    unsafe { TODO: call ffi:pk_package_sack_resolve_async() }
     //}
 

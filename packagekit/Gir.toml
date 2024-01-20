@@ -9,7 +9,7 @@ generate = [
     "PackageKitGlib.Bitfield",
     "PackageKitGlib.Category",
     "PackageKitGlib.ClientError",
-    "PackageKitGlib.ClientHelper",
+    #TODO: "PackageKitGlib.ClientHelper",
     "PackageKitGlib.Control",
     "PackageKitGlib.ControlError",
     "PackageKitGlib.Desktop",
@@ -32,13 +32,12 @@ generate = [
     "PackageKitGlib.OfflineAction",
     "PackageKitGlib.OfflineError",
     "PackageKitGlib.OfflineFlags",
-    "PackageKitGlib.Package",
     "PackageKitGlib.PackageSack",
     "PackageKitGlib.PackageSackFilterFunc",
     #TODO: "PackageKitGlib.PackageSackResults",
     "PackageKitGlib.PackageSackSortType",
     "PackageKitGlib.Progress",
-    "PackageKitGlib.ProgressType",
+    #TODO: "PackageKitGlib.ProgressType",
     "PackageKitGlib.ProgressCallback",
     "PackageKitGlib.RepoDetail",
     "PackageKitGlib.RepoSignatureRequired",
@@ -88,4 +87,25 @@ name = "PackageKitGlib.Client"
 status = "generate"
     [[object.function]]
     name = "create_helper_argv_envp"
+    ignore = true
+[[object]]
+name = "PackageKitGlib.Package"
+status = "generate"
+    [[object.function]]
+    name = "ids_add_id"
+    ignore = true
+    [[object.function]]
+    name = "ids_add_ids"
+    ignore = true
+    [[object.function]]
+    name = "ids_check"
+    ignore = true
+    [[object.function]]
+    name = "ids_present_id"
+    ignore = true
+    [[object.function]]
+    name = "ids_remove_id"
+    ignore = true
+    [[object.function]]
+    name = "ids_to_string"
     ignore = true

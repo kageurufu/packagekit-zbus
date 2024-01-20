@@ -140,6 +140,23 @@ Interaction required for authorization
 # Implements
 
 [`ClientExt`][trait@crate::prelude::ClientExt]
+<!-- trait ClientExt::fn accept_eula -->
+We may want to agree to a EULA dialog if one is presented.
+
+Warning: this function is synchronous, and may block. Do not use it in GUI
+applications.
+## `eula_id`
+the `<literal>`eula_id`</literal>` we are agreeing to
+## `cancellable`
+a [`gio::Cancellable`][crate::gio::Cancellable] or [`None`]
+## `progress_callback`
+the function to run when the progress changes
+## `progress_user_data`
+data to pass to `progress_callback`
+
+# Returns
+
+a [`Results`][crate::Results] object, or [`None`] for error
 <!-- trait ClientExt::fn accept_eula_async -->
 We may want to agree to a EULA dialog if one is presented.
 ## `eula_id`
@@ -152,6 +169,23 @@ the function to run when the progress changes
 data to pass to `progress_callback`
 ## `callback_ready`
 the function to run on completion
+<!-- trait ClientExt::fn adopt -->
+Adopt a transaction.
+
+Warning: this function is synchronous, and will block. Do not use it in GUI
+applications.
+## `transaction_id`
+a transaction ID such as "/21_ebcbdaae_data"
+## `cancellable`
+a [`gio::Cancellable`][crate::gio::Cancellable] or [`None`]
+## `progress_callback`
+the function to run when the progress changes
+## `progress_user_data`
+data to pass to `progress_callback`
+
+# Returns
+
+a [`Results`][crate::Results] object, or [`None`] for error
 <!-- trait ClientExt::fn adopt_async -->
 Adopt a transaction which allows the caller to monitor the state or cancel it.
 ## `transaction_id`
@@ -164,6 +198,27 @@ the function to run when the progress changes
 data to pass to `progress_callback`
 ## `callback_ready`
 the function to run on completion
+<!-- trait ClientExt::fn depends_on -->
+Get the packages that depend this one, i.e. child.parent.
+
+Warning: this function is synchronous, and may block. Do not use it in GUI
+applications.
+## `filters`
+a `PkBitfield` such as [`FilterEnum::Gui`][crate::FilterEnum::Gui] | [`FilterEnum::Free`][crate::FilterEnum::Free] or [`FilterEnum::None`][crate::FilterEnum::None]
+## `package_ids`
+a null terminated array of package_id structures such as "hal;0.0.1;i386;fedora"
+## `recursive`
+If we should search recursively for depends
+## `cancellable`
+a [`gio::Cancellable`][crate::gio::Cancellable] or [`None`]
+## `progress_callback`
+the function to run when the progress changes
+## `progress_user_data`
+data to pass to `progress_callback`
+
+# Returns
+
+a [`Results`][crate::Results] object, or [`None`] for error
 <!-- trait ClientExt::fn depends_on_async -->
 Get the packages that depend this one, i.e. child->parent.
 ## `filters`
@@ -180,6 +235,25 @@ the function to run when the progress changes
 data to pass to `progress_callback`
 ## `callback_ready`
 the function to run on completion
+<!-- trait ClientExt::fn download_packages -->
+Downloads package files to a specified location.
+
+Warning: this function is synchronous, and may block. Do not use it in GUI
+applications.
+## `package_ids`
+a null terminated array of package_id structures such as "hal;0.0.1;i386;fedora"
+## `directory`
+the location where packages are to be downloaded
+## `cancellable`
+a [`gio::Cancellable`][crate::gio::Cancellable] or [`None`]
+## `progress_callback`
+the function to run when the progress changes
+## `progress_user_data`
+data to pass to `progress_callback`
+
+# Returns
+
+a [`Results`][crate::Results] object, or [`None`] for error
 <!-- trait ClientExt::fn download_packages_async -->
 Downloads package files to a specified location.
 ## `package_ids`
@@ -194,6 +268,21 @@ the function to run when the progress changes
 data to pass to `progress_callback`
 ## `callback_ready`
 the function to run on completion
+<!-- trait ClientExt::fn categories -->
+Get a list of all categories supported.
+
+Warning: this function is synchronous, and may block. Do not use it in GUI
+applications.
+## `cancellable`
+a [`gio::Cancellable`][crate::gio::Cancellable] or [`None`]
+## `progress_callback`
+the function to run when the progress changes
+## `progress_user_data`
+data to pass to `progress_callback`
+
+# Returns
+
+a [`Results`][crate::Results] object, or [`None`] for error
 <!-- trait ClientExt::fn categories_async -->
 Get a list of all categories supported.
 ## `cancellable`
@@ -204,6 +293,24 @@ the function to run when the progress changes
 data to pass to `progress_callback`
 ## `callback_ready`
 the function to run on completion
+<!-- trait ClientExt::fn details -->
+Get details of a package, so more information can be obtained for GUI
+or command line tools.
+
+Warning: this function is synchronous, and may block. Do not use it in GUI
+applications.
+## `package_ids`
+a null terminated array of package_id structures such as "hal;0.0.1;i386;fedora"
+## `cancellable`
+a [`gio::Cancellable`][crate::gio::Cancellable] or [`None`]
+## `progress_callback`
+the function to run when the progress changes
+## `progress_user_data`
+data to pass to `progress_callback`
+
+# Returns
+
+a [`Results`][crate::Results] object, or [`None`] for error
 <!-- trait ClientExt::fn details_async -->
 Get details of a package, so more information can be obtained for GUI
 or command line tools.
@@ -217,6 +324,24 @@ the function to run when the progress changes
 data to pass to `progress_callback`
 ## `callback_ready`
 the function to run on completion
+<!-- trait ClientExt::fn details_local -->
+Get details of a local package, so more information can be obtained for GUI
+or command line tools.
+
+Warning: this function is synchronous, and may block. Do not use it in GUI
+applications.
+## `files`
+a null terminated array of filenames
+## `cancellable`
+a [`gio::Cancellable`][crate::gio::Cancellable] or [`None`]
+## `progress_callback`
+the function to run when the progress changes
+## `progress_user_data`
+data to pass to `progress_callback`
+
+# Returns
+
+a [`Results`][crate::Results] object, or [`None`] for error
 <!-- trait ClientExt::fn details_local_async -->
 Get details of a package, so more information can be obtained for GUI
 or command line tools.
@@ -230,6 +355,22 @@ the function to run when the progress changes
 data to pass to `progress_callback`
 ## `callback_ready`
 the function to run on completion
+<!-- trait ClientExt::fn distro_upgrades -->
+This method should return a list of distribution upgrades that are available.
+It should not return updates, only major upgrades.
+
+Warning: this function is synchronous, and may block. Do not use it in GUI
+applications.
+## `cancellable`
+a [`gio::Cancellable`][crate::gio::Cancellable] or [`None`]
+## `progress_callback`
+the function to run when the progress changes
+## `progress_user_data`
+data to pass to `progress_callback`
+
+# Returns
+
+a [`Results`][crate::Results] object, or [`None`] for error
 <!-- trait ClientExt::fn distro_upgrades_async -->
 This method should return a list of distribution upgrades that are available.
 It should not return updates, only major upgrades.
@@ -241,6 +382,23 @@ the function to run when the progress changes
 data to pass to `progress_callback`
 ## `callback_ready`
 the function to run on completion
+<!-- trait ClientExt::fn files -->
+Get the file list (i.e. a list of files installed) for the specified package.
+
+Warning: this function is synchronous, and may block. Do not use it in GUI
+applications.
+## `package_ids`
+a null terminated array of package_id structures such as "hal;0.0.1;i386;fedora"
+## `cancellable`
+a [`gio::Cancellable`][crate::gio::Cancellable] or [`None`]
+## `progress_callback`
+the function to run when the progress changes
+## `progress_user_data`
+data to pass to `progress_callback`
+
+# Returns
+
+a [`Results`][crate::Results] object, or [`None`] for error
 <!-- trait ClientExt::fn files_async -->
 Get the file list (i.e. a list of files installed) for the specified package.
 ## `package_ids`
@@ -253,6 +411,24 @@ the function to run when the progress changes
 data to pass to `progress_callback`
 ## `callback_ready`
 the function to run on completion
+<!-- trait ClientExt::fn files_local -->
+Get file list of a local package, so more information can be obtained for GUI
+or command line tools.
+
+Warning: this function is synchronous, and may block. Do not use it in GUI
+applications.
+## `files`
+a null terminated array of filenames
+## `cancellable`
+a [`gio::Cancellable`][crate::gio::Cancellable] or [`None`]
+## `progress_callback`
+the function to run when the progress changes
+## `progress_user_data`
+data to pass to `progress_callback`
+
+# Returns
+
+a [`Results`][crate::Results] object, or [`None`] for error
 <!-- trait ClientExt::fn files_local_async -->
 Get file list of a package, so more information can be obtained for GUI
 or command line tools.
@@ -266,6 +442,23 @@ the function to run when the progress changes
 data to pass to `progress_callback`
 ## `callback_ready`
 the function to run on completion
+<!-- trait ClientExt::fn old_transactions -->
+Get the old transaction list, mainly used for the transaction viewer.
+
+Warning: this function is synchronous, and may block. Do not use it in GUI
+applications.
+## `number`
+the number of past transactions to return, or 0 for all
+## `cancellable`
+a [`gio::Cancellable`][crate::gio::Cancellable] or [`None`]
+## `progress_callback`
+the function to run when the progress changes
+## `progress_user_data`
+data to pass to `progress_callback`
+
+# Returns
+
+a [`Results`][crate::Results] object, or [`None`] for error
 <!-- trait ClientExt::fn old_transactions_async -->
 Get the old transaction list, mainly used for the transaction viewer.
 ## `number`
@@ -278,6 +471,23 @@ the function to run when the progress changes
 data to pass to `progress_callback`
 ## `callback_ready`
 the function to run on completion
+<!-- trait ClientExt::fn packages -->
+Get the list of packages from the backend
+
+Warning: this function is synchronous, and may block. Do not use it in GUI
+applications.
+## `filters`
+a `PkBitfield` such as [`FilterEnum::Gui`][crate::FilterEnum::Gui] | [`FilterEnum::Free`][crate::FilterEnum::Free] or [`FilterEnum::None`][crate::FilterEnum::None]
+## `cancellable`
+a [`gio::Cancellable`][crate::gio::Cancellable] or [`None`]
+## `progress_callback`
+the function to run when the progress changes
+## `progress_user_data`
+data to pass to `progress_callback`
+
+# Returns
+
+a [`Results`][crate::Results] object, or [`None`] for error
 <!-- trait ClientExt::fn packages_async -->
 Get the list of packages from the backend
 ## `filters`
@@ -298,6 +508,23 @@ a transaction ID such as "/21_ebcbdaae_data"
 a [`gio::Cancellable`][crate::gio::Cancellable] or [`None`]
 ## `callback_ready`
 the function to run on completion
+<!-- trait ClientExt::fn repo_list -->
+Get the list of repositories installed on the system.
+
+Warning: this function is synchronous, and may block. Do not use it in GUI
+applications.
+## `filters`
+a `PkBitfield` such as [`FilterEnum::Development`][crate::FilterEnum::Development] or [`FilterEnum::None`][crate::FilterEnum::None]
+## `cancellable`
+a [`gio::Cancellable`][crate::gio::Cancellable] or [`None`]
+## `progress_callback`
+the function to run when the progress changes
+## `progress_user_data`
+data to pass to `progress_callback`
+
+# Returns
+
+a [`Results`][crate::Results] object, or [`None`] for error
 <!-- trait ClientExt::fn repo_list_async -->
 Get the list of repositories installed on the system.
 ## `filters`
@@ -310,6 +537,24 @@ the function to run when the progress changes
 data to pass to `progress_callback`
 ## `callback_ready`
 the function to run on completion
+<!-- trait ClientExt::fn update_detail -->
+Get details about the specific update, for instance any CVE urls and
+severity information.
+
+Warning: this function is synchronous, and may block. Do not use it in GUI
+applications.
+## `package_ids`
+a null terminated array of package_id structures such as "hal;0.0.1;i386;fedora"
+## `cancellable`
+a [`gio::Cancellable`][crate::gio::Cancellable] or [`None`]
+## `progress_callback`
+the function to run when the progress changes
+## `progress_user_data`
+data to pass to `progress_callback`
+
+# Returns
+
+a [`Results`][crate::Results] object, or [`None`] for error
 <!-- trait ClientExt::fn update_detail_async -->
 Get details about the specific update, for instance any CVE urls and
 severity information.
@@ -323,6 +568,23 @@ the function to run when the progress changes
 data to pass to `progress_callback`
 ## `callback_ready`
 the function to run on completion
+<!-- trait ClientExt::fn updates -->
+Get a list of all the packages that can be updated for all repositories.
+
+Warning: this function is synchronous, and may block. Do not use it in GUI
+applications.
+## `filters`
+a `PkBitfield` such as [`FilterEnum::Development`][crate::FilterEnum::Development] or [`FilterEnum::None`][crate::FilterEnum::None]
+## `cancellable`
+a [`gio::Cancellable`][crate::gio::Cancellable] or [`None`]
+## `progress_callback`
+the function to run when the progress changes
+## `progress_user_data`
+data to pass to `progress_callback`
+
+# Returns
+
+a [`Results`][crate::Results] object, or [`None`] for error
 <!-- trait ClientExt::fn updates_async -->
 Get a list of all the packages that can be updated for all repositories.
 ## `filters`
@@ -335,6 +597,26 @@ the function to run when the progress changes
 data to pass to `progress_callback`
 ## `callback_ready`
 the function to run on completion
+<!-- trait ClientExt::fn install_files -->
+Install a file locally, and get the deps from the repositories.
+This is useful for double clicking on a .rpm or .deb file.
+
+Warning: this function is synchronous, and may block. Do not use it in GUI
+applications.
+## `transaction_flags`
+a transaction type bitfield
+## `files`
+a file such as "/home/hughsie/Desktop/hal-devel-0.10.0.rpm"
+## `cancellable`
+a [`gio::Cancellable`][crate::gio::Cancellable] or [`None`]
+## `progress_callback`
+the function to run when the progress changes
+## `progress_user_data`
+data to pass to `progress_callback`
+
+# Returns
+
+a [`Results`][crate::Results] object, or [`None`] for error
 <!-- trait ClientExt::fn install_files_async -->
 Install a file locally, and get the deps from the repositories.
 This is useful for double clicking on a .rpm or .deb file.
@@ -350,6 +632,25 @@ the function to run when the progress changes
 data to pass to `progress_callback`
 ## `callback_ready`
 the function to run on completion
+<!-- trait ClientExt::fn install_packages -->
+Install a package of the newest and most correct version.
+
+Warning: this function is synchronous, and may block. Do not use it in GUI
+applications.
+## `transaction_flags`
+a transaction type bitfield
+## `package_ids`
+a null terminated array of package_id structures such as "hal;0.0.1;i386;fedora"
+## `cancellable`
+a [`gio::Cancellable`][crate::gio::Cancellable] or [`None`]
+## `progress_callback`
+the function to run when the progress changes
+## `progress_user_data`
+data to pass to `progress_callback`
+
+# Returns
+
+a [`Results`][crate::Results] object, or [`None`] for error
 <!-- trait ClientExt::fn install_packages_async -->
 Install a package of the newest and most correct version.
 ## `transaction_flags`
@@ -364,6 +665,27 @@ the function to run when the progress changes
 data to pass to `progress_callback`
 ## `callback_ready`
 the function to run on completion
+<!-- trait ClientExt::fn install_signature -->
+Install a software repository signature of the newest and most correct version.
+
+Warning: this function is synchronous, and may block. Do not use it in GUI
+applications.
+## `type_`
+the signature type, e.g. [`SigTypeEnum::Gpg`][crate::SigTypeEnum::Gpg]
+## `key_id`
+a key ID such as "0df23df"
+## `package_id`
+a signature_id structure such as "hal;0.0.1;i386;fedora"
+## `cancellable`
+a [`gio::Cancellable`][crate::gio::Cancellable] or [`None`]
+## `progress_callback`
+the function to run when the progress changes
+## `progress_user_data`
+data to pass to `progress_callback`
+
+# Returns
+
+a [`Results`][crate::Results] object, or [`None`] for error
 <!-- trait ClientExt::fn install_signature_async -->
 Install a software repository signature of the newest and most correct version.
 ## `type_`
@@ -380,6 +702,26 @@ the function to run when the progress changes
 data to pass to `progress_callback`
 ## `callback_ready`
 the function to run on completion
+<!-- trait ClientExt::fn refresh_cache -->
+Refresh the cache, i.e. download new metadata from a remote URL so that
+package lists are up to date.
+This action may take a few minutes and should be done when the session and
+system are idle.
+
+Warning: this function is synchronous, and may block. Do not use it in GUI
+applications.
+## `force`
+if we should aggressively drop caches
+## `cancellable`
+a [`gio::Cancellable`][crate::gio::Cancellable] or [`None`]
+## `progress_callback`
+the function to run when the progress changes
+## `progress_user_data`
+data to pass to `progress_callback`
+
+# Returns
+
+a [`Results`][crate::Results] object, or [`None`] for error
 <!-- trait ClientExt::fn refresh_cache_async -->
 Refresh the cache, i.e. download new metadata from a remote URL so that
 package lists are up to date.
@@ -395,6 +737,31 @@ the function to run when the progress changes
 data to pass to `progress_callback`
 ## `callback_ready`
 the function to run on completion
+<!-- trait ClientExt::fn remove_packages -->
+Remove a package (optionally with dependancies) from the system.
+If `allow_deps` is set to [`false`], and other packages would have to be removed,
+then the transaction would fail.
+
+Warning: this function is synchronous, and may block. Do not use it in GUI
+applications.
+## `transaction_flags`
+a transaction type bitfield
+## `package_ids`
+a null terminated array of package_id structures such as "hal;0.0.1;i386;fedora"
+## `allow_deps`
+if other dependent packages are allowed to be removed from the computer
+## `autoremove`
+if other packages installed at the same time should be tried to remove
+## `cancellable`
+a [`gio::Cancellable`][crate::gio::Cancellable] or [`None`]
+## `progress_callback`
+the function to run when the progress changes
+## `progress_user_data`
+data to pass to `progress_callback`
+
+# Returns
+
+a [`Results`][crate::Results] object, or [`None`] for error
 <!-- trait ClientExt::fn remove_packages_async -->
 Remove a package (optionally with dependancies) from the system.
 If `allow_deps` is set to [`false`], and other packages would have to be removed,
@@ -415,6 +782,28 @@ the function to run when the progress changes
 data to pass to `progress_callback`
 ## `callback_ready`
 the function to run on completion
+<!-- trait ClientExt::fn repair_system -->
+This transaction will try to recover from a broken package management system:
+e.g. the installation of a package with unsatisfied dependencies has
+been forced by using a low level tool (rpm or dpkg) or the
+system was shutdown during processing an installation.
+
+The backend will decide what is best to do.
+
+Warning: this function is synchronous, and may block. Do not use it in GUI
+applications.
+## `transaction_flags`
+if only trusted packages should be installed
+## `cancellable`
+a [`gio::Cancellable`][crate::gio::Cancellable] or [`None`]
+## `progress_callback`
+the function to run when the progress changes
+## `progress_user_data`
+data to pass to `progress_callback`
+
+# Returns
+
+a [`Results`][crate::Results] object, or [`None`] for error
 <!-- trait ClientExt::fn repair_system_async -->
 This transaction will try to recover from a broken package management system:
 e.g. the installation of a package with unsatisfied dependencies has
@@ -432,6 +821,25 @@ the function to run when the progress changes
 data to pass to `progress_callback`
 ## `callback_ready`
 the function to run on completion
+<!-- trait ClientExt::fn repo_enable -->
+Enable or disable the repository.
+
+Warning: this function is synchronous, and may block. Do not use it in GUI
+applications.
+## `repo_id`
+a repo_id structure such as "livna-devel"
+## `enabled`
+if we should enable the repository
+## `cancellable`
+a [`gio::Cancellable`][crate::gio::Cancellable] or [`None`]
+## `progress_callback`
+the function to run when the progress changes
+## `progress_user_data`
+data to pass to `progress_callback`
+
+# Returns
+
+a [`Results`][crate::Results] object, or [`None`] for error
 <!-- trait ClientExt::fn repo_enable_async -->
 Enable or disable the repository.
 ## `repo_id`
@@ -446,6 +854,27 @@ the function to run when the progress changes
 data to pass to `progress_callback`
 ## `callback_ready`
 the function to run on completion
+<!-- trait ClientExt::fn repo_remove -->
+Removes a repo and optionally the packages installed from it.
+
+Warning: this function is synchronous, and may block. Do not use it in GUI
+applications.
+## `transaction_flags`
+transaction flags
+## `repo_id`
+a repo_id structure such as "livna-devel"
+## `autoremove`
+If packages should be auto-removed
+## `cancellable`
+a [`gio::Cancellable`][crate::gio::Cancellable] or [`None`]
+## `progress_callback`
+the function to run when the progress changes
+## `progress_user_data`
+data to pass to `progress_callback`
+
+# Returns
+
+a [`Results`][crate::Results] object, or [`None`] for error
 <!-- trait ClientExt::fn repo_remove_async -->
 Removes a repo and optionally the packages installed from it.
 ## `transaction_flags`
@@ -462,6 +891,28 @@ the function to run when the progress changes
 data to pass to `progress_callback`
 ## `callback_ready`
 the function to run on completion
+<!-- trait ClientExt::fn repo_set_data -->
+We may want to set a repository parameter.
+NOTE: this is free text, and is left to the backend to define a format.
+
+Warning: this function is synchronous, and may block. Do not use it in GUI
+applications.
+## `repo_id`
+a repo_id structure such as "livna-devel"
+## `parameter`
+the parameter to change
+## `value`
+what we should change it to
+## `cancellable`
+a [`gio::Cancellable`][crate::gio::Cancellable] or [`None`]
+## `progress_callback`
+the function to run when the progress changes
+## `progress_user_data`
+data to pass to `progress_callback`
+
+# Returns
+
+a [`Results`][crate::Results] object, or [`None`] for error
 <!-- trait ClientExt::fn repo_set_data_async -->
 We may want to set a repository parameter.
 NOTE: this is free text, and is left to the backend to define a format.
@@ -479,6 +930,27 @@ the function to run when the progress changes
 data to pass to `progress_callback`
 ## `callback_ready`
 the function to run on completion
+<!-- trait ClientExt::fn required_by -->
+Get the packages that require this one, i.e. parent.child.
+
+Warning: this function is synchronous, and may block. Do not use it in GUI
+applications.
+## `filters`
+a `PkBitfield` such as [`FilterEnum::Gui`][crate::FilterEnum::Gui] | [`FilterEnum::Free`][crate::FilterEnum::Free] or [`FilterEnum::None`][crate::FilterEnum::None]
+## `package_ids`
+a null terminated array of package_id structures such as "hal;0.0.1;i386;fedora"
+## `recursive`
+If we should search recursively for requires
+## `cancellable`
+a [`gio::Cancellable`][crate::gio::Cancellable] or [`None`]
+## `progress_callback`
+the function to run when the progress changes
+## `progress_user_data`
+data to pass to `progress_callback`
+
+# Returns
+
+a [`Results`][crate::Results] object, or [`None`] for error
 <!-- trait ClientExt::fn required_by_async -->
 Get the packages that require this one, i.e. parent->child.
 ## `filters`
@@ -495,6 +967,27 @@ the function to run when the progress changes
 data to pass to `progress_callback`
 ## `callback_ready`
 the function to run on completion
+<!-- trait ClientExt::fn resolve -->
+Resolve a package name into a `package_id`. This can return installed and
+available packages and allows you find out if a package is installed locally
+or is available in a repository.
+
+Warning: this function is synchronous, and may block. Do not use it in GUI
+applications.
+## `filters`
+a `PkBitfield` such as [`FilterEnum::Gui`][crate::FilterEnum::Gui] | [`FilterEnum::Free`][crate::FilterEnum::Free] or [`FilterEnum::None`][crate::FilterEnum::None]
+## `packages`
+an array of package names to resolve, e.g. "gnome-system-tools"
+## `cancellable`
+a [`gio::Cancellable`][crate::gio::Cancellable] or [`None`]
+## `progress_callback`
+the function to run when the progress changes
+## `progress_user_data`
+data to pass to `progress_callback`
+
+# Returns
+
+a [`Results`][crate::Results] object, or [`None`] for error
 <!-- trait ClientExt::fn resolve_async -->
 Resolve a package name into a `package_id`. This can return installed and
 available packages and allows you find out if a package is installed locally
@@ -511,9 +1004,30 @@ the function to run when the progress changes
 data to pass to `progress_callback`
 ## `callback_ready`
 the function to run on completion
+<!-- trait ClientExt::fn search_details -->
+Search all detailed summary information to try and find a keyword.
+Think of this as `pk_client_search_names()`, but trying much harder and
+taking longer.
+
+Warning: this function is synchronous, and may block. Do not use it in GUI
+applications.
+## `filters`
+a `PkBitfield` such as [`FilterEnum::Gui`][crate::FilterEnum::Gui] | [`FilterEnum::Free`][crate::FilterEnum::Free] or [`FilterEnum::None`][crate::FilterEnum::None]
+## `values`
+free text to search for, for instance, "power"
+## `cancellable`
+a [`gio::Cancellable`][crate::gio::Cancellable] or [`None`]
+## `progress_callback`
+the function to run when the progress changes
+## `progress_user_data`
+data to pass to `progress_callback`
+
+# Returns
+
+a [`Results`][crate::Results] object, or [`None`] for error
 <!-- trait ClientExt::fn search_details_async -->
 Search all detailed summary information to try and find a keyword.
-Think of this as [`search_names()`][Self::search_names()], but trying much harder and
+Think of this as `pk_client_search_names()`, but trying much harder and
 taking longer.
 ## `filters`
 a `PkBitfield` such as [`FilterEnum::Gui`][crate::FilterEnum::Gui] | [`FilterEnum::Free`][crate::FilterEnum::Free] or [`FilterEnum::None`][crate::FilterEnum::None]
@@ -527,6 +1041,25 @@ the function to run when the progress changes
 data to pass to `progress_callback`
 ## `callback_ready`
 the function to run on completion
+<!-- trait ClientExt::fn search_files -->
+Search for packages that provide a specific file.
+
+Warning: this function is synchronous, and may block. Do not use it in GUI
+applications.
+## `filters`
+a `PkBitfield` such as [`FilterEnum::Gui`][crate::FilterEnum::Gui] | [`FilterEnum::Free`][crate::FilterEnum::Free] or [`FilterEnum::None`][crate::FilterEnum::None]
+## `values`
+file to search for, for instance, "/sbin/service"
+## `cancellable`
+a [`gio::Cancellable`][crate::gio::Cancellable] or [`None`]
+## `progress_callback`
+the function to run when the progress changes
+## `progress_user_data`
+data to pass to `progress_callback`
+
+# Returns
+
+a [`Results`][crate::Results] object, or [`None`] for error
 <!-- trait ClientExt::fn search_files_async -->
 Search for packages that provide a specific file.
 ## `filters`
@@ -541,6 +1074,25 @@ the function to run when the progress changes
 data to pass to `progress_callback`
 ## `callback_ready`
 the function to run on completion
+<!-- trait ClientExt::fn search_groups -->
+Return all packages in a specific group.
+
+Warning: this function is synchronous, and may block. Do not use it in GUI
+applications.
+## `filters`
+a `PkBitfield` such as [`FilterEnum::Gui`][crate::FilterEnum::Gui] | [`FilterEnum::Free`][crate::FilterEnum::Free] or [`FilterEnum::None`][crate::FilterEnum::None]
+## `values`
+a group enum to search for, for instance, "system-tools"
+## `cancellable`
+a [`gio::Cancellable`][crate::gio::Cancellable] or [`None`]
+## `progress_callback`
+the function to run when the progress changes
+## `progress_user_data`
+data to pass to `progress_callback`
+
+# Returns
+
+a [`Results`][crate::Results] object, or [`None`] for error
 <!-- trait ClientExt::fn search_groups_async -->
 Return all packages in a specific group.
 ## `filters`
@@ -555,6 +1107,26 @@ the function to run when the progress changes
 data to pass to `progress_callback`
 ## `callback_ready`
 the function to run on completion
+<!-- trait ClientExt::fn search_names -->
+Search all the locally installed files and remote repositories for a package
+that matches a specific name.
+
+Warning: this function is synchronous, and may block. Do not use it in GUI
+applications.
+## `filters`
+a `PkBitfield` such as [`FilterEnum::Gui`][crate::FilterEnum::Gui] | [`FilterEnum::Free`][crate::FilterEnum::Free] or [`FilterEnum::None`][crate::FilterEnum::None]
+## `values`
+free text to search for, for instance, "power"
+## `cancellable`
+a [`gio::Cancellable`][crate::gio::Cancellable] or [`None`]
+## `progress_callback`
+the function to run when the progress changes
+## `progress_user_data`
+data to pass to `progress_callback`
+
+# Returns
+
+a [`Results`][crate::Results] object, or [`None`] for error
 <!-- trait ClientExt::fn search_names_async -->
 Search all the locally installed files and remote repositories for a package
 that matches a specific name.
@@ -570,6 +1142,25 @@ the function to run when the progress changes
 data to pass to `progress_callback`
 ## `callback_ready`
 the function to run on completion
+<!-- trait ClientExt::fn update_packages -->
+Update specific packages to the newest available versions.
+
+Warning: this function is synchronous, and may block. Do not use it in GUI
+applications.
+## `transaction_flags`
+a transaction type bitfield
+## `package_ids`
+a null terminated array of package_id structures such as "hal;0.0.1;i386;fedora"
+## `cancellable`
+a [`gio::Cancellable`][crate::gio::Cancellable] or [`None`]
+## `progress_callback`
+the function to run when the progress changes
+## `progress_user_data`
+data to pass to `progress_callback`
+
+# Returns
+
+a [`Results`][crate::Results] object, or [`None`] for error
 <!-- trait ClientExt::fn update_packages_async -->
 Update specific packages to the newest available versions.
 ## `transaction_flags`
@@ -584,6 +1175,31 @@ the function to run when the progress changes
 data to pass to `progress_callback`
 ## `callback_ready`
 the function to run on completion
+<!-- trait ClientExt::fn upgrade_system -->
+This transaction will upgrade the distro to the next version, which may
+involve just downloading the installer and setting up the boot device,
+or may involve doing an on-line upgrade.
+
+The backend will decide what is best to do.
+
+Warning: this function is synchronous, and may block. Do not use it in GUI
+applications.
+## `transaction_flags`
+transaction flags
+## `distro_id`
+a distro ID such as "fedora-14"
+## `upgrade_kind`
+a [`UpgradeKindEnum`][crate::UpgradeKindEnum] such as [`UpgradeKindEnum::Complete`][crate::UpgradeKindEnum::Complete]
+## `cancellable`
+a [`gio::Cancellable`][crate::gio::Cancellable] or [`None`]
+## `progress_callback`
+the function to run when the progress changes
+## `progress_user_data`
+data to pass to `progress_callback`
+
+# Returns
+
+a [`Results`][crate::Results] object, or [`None`] for error
 <!-- trait ClientExt::fn upgrade_system_async -->
 This transaction will update the distro to the next version, which may
 involve just downloading the installer and setting up the boot device,
@@ -604,6 +1220,27 @@ the function to run when the progress changes
 data to pass to `progress_callback`
 ## `callback_ready`
 the function to run on completion
+<!-- trait ClientExt::fn what_provides -->
+This should return packages that provide the supplied attributes.
+This method is useful for finding out what package(s) provide a modalias
+or GStreamer codec string.
+
+Warning: this function is synchronous, and may block. Do not use it in GUI
+applications.
+## `filters`
+a `PkBitfield` such as [`FilterEnum::Gui`][crate::FilterEnum::Gui] | [`FilterEnum::Free`][crate::FilterEnum::Free] or [`FilterEnum::None`][crate::FilterEnum::None]
+## `values`
+a search term such as "sound/mp3"
+## `cancellable`
+a [`gio::Cancellable`][crate::gio::Cancellable] or [`None`]
+## `progress_callback`
+the function to run when the progress changes
+## `progress_user_data`
+data to pass to `progress_callback`
+
+# Returns
+
+a [`Results`][crate::Results] object, or [`None`] for error
 <!-- trait ClientExt::fn what_provides_async -->
 This should return packages that provide the supplied attributes.
 This method is useful for finding out what package(s) provide a modalias
@@ -642,12 +1279,6 @@ the action is not supported
 the simulation was declined by the user
 <!-- enum ClientError::variant DeclinedInteraction -->
 the user declined interaction on the task
-<!-- struct ClientHelper -->
-
-
-# Implements
-
-[`ClientHelperExt`][trait@crate::prelude::ClientHelperExt]
 <!-- struct Control -->
 
 
@@ -1594,36 +2225,6 @@ Readable | Writeable
 # Implements
 
 [`ProgressExt`][trait@crate::prelude::ProgressExt]
-<!-- enum ProgressType::variant PackageId -->
-package id updated
-<!-- enum ProgressType::variant TransactionId -->
-transaction ID updated
-<!-- enum ProgressType::variant Percentage -->
-percentage updated
-<!-- enum ProgressType::variant AllowCancel -->
-allow cancel updated
-<!-- enum ProgressType::variant Status -->
-status updated
-<!-- enum ProgressType::variant Role -->
-role updated
-<!-- enum ProgressType::variant CallerActive -->
-called active updated
-<!-- enum ProgressType::variant ElapsedTime -->
-elapsed time updated
-<!-- enum ProgressType::variant RemainingTime -->
-remaining time updated
-<!-- enum ProgressType::variant Speed -->
-speed updated
-<!-- enum ProgressType::variant DownloadSizeRemaining -->
-download size remaining updated
-<!-- enum ProgressType::variant Uid -->
-uid updated
-<!-- enum ProgressType::variant Package -->
-package updated
-<!-- enum ProgressType::variant ItemProgress -->
-item progress updated
-<!-- enum ProgressType::variant TransactionFlags -->
-transaction flags updated
 <!-- struct RepoDetail -->
 
 
@@ -1994,6 +2595,24 @@ the function to run when the progress changes
 data to pass to `progress_callback`
 ## `callback_ready`
 the function to run on completion
+<!-- trait TaskExt::fn depends_on_sync -->
+Get the list of dependent packages.
+## `filters`
+a bitfield of filters that can be used to limit the results
+## `package_ids`
+a null terminated array of package_id structures such as "hal;0.0.1;i386;fedora"
+## `recursive`
+if we should recurse to packages that depend on other packages
+## `cancellable`
+a [`gio::Cancellable`][crate::gio::Cancellable] or [`None`]
+## `progress_callback`
+the function to run when the progress changes
+## `progress_user_data`
+data to pass to `progress_callback`
+
+# Returns
+
+a [`Results`][crate::Results] object, or [`None`] for error
 <!-- trait TaskExt::fn download_packages_async -->
 Downloads packages
 ## `package_ids`
@@ -2008,6 +2627,22 @@ the function to run when the progress changes
 data to pass to `progress_callback`
 ## `callback_ready`
 the function to run on completion
+<!-- trait TaskExt::fn download_packages_sync -->
+Downloads packages
+## `package_ids`
+a null terminated array of package_id structures such as "hal;0.0.1;i386;fedora"
+## `directory`
+the destination directory
+## `cancellable`
+a [`gio::Cancellable`][crate::gio::Cancellable] or [`None`]
+## `progress_callback`
+the function to run when the progress changes
+## `progress_user_data`
+data to pass to `progress_callback`
+
+# Returns
+
+a [`Results`][crate::Results] object, or [`None`] for error
 <!-- trait TaskExt::fn categories_async -->
 Get the categories available.
 ## `cancellable`
@@ -2018,6 +2653,18 @@ the function to run when the progress changes
 data to pass to `progress_callback`
 ## `callback_ready`
 the function to run on completion
+<!-- trait TaskExt::fn categories_sync -->
+Get the categories available.
+## `cancellable`
+a [`gio::Cancellable`][crate::gio::Cancellable] or [`None`]
+## `progress_callback`
+the function to run when the progress changes
+## `progress_user_data`
+data to pass to `progress_callback`
+
+# Returns
+
+a [`Results`][crate::Results] object, or [`None`] for error
 <!-- trait TaskExt::fn details_async -->
 Gets details about packages.
 ## `package_ids`
@@ -2030,6 +2677,20 @@ the function to run when the progress changes
 data to pass to `progress_callback`
 ## `callback_ready`
 the function to run on completion
+<!-- trait TaskExt::fn details_sync -->
+Gets details about packages.
+## `package_ids`
+a null terminated array of package_id structures such as "hal;0.0.1;i386;fedora"
+## `cancellable`
+a [`gio::Cancellable`][crate::gio::Cancellable] or [`None`]
+## `progress_callback`
+the function to run when the progress changes
+## `progress_user_data`
+data to pass to `progress_callback`
+
+# Returns
+
+a [`Results`][crate::Results] object, or [`None`] for error
 <!-- trait TaskExt::fn files_async -->
 Get the files in a package.
 ## `package_ids`
@@ -2042,6 +2703,20 @@ the function to run when the progress changes
 data to pass to `progress_callback`
 ## `callback_ready`
 the function to run on completion
+<!-- trait TaskExt::fn files_sync -->
+Get the files in a package.
+## `package_ids`
+a null terminated array of package_id structures such as "hal;0.0.1;i386;fedora"
+## `cancellable`
+a [`gio::Cancellable`][crate::gio::Cancellable] or [`None`]
+## `progress_callback`
+the function to run when the progress changes
+## `progress_user_data`
+data to pass to `progress_callback`
+
+# Returns
+
+a [`Results`][crate::Results] object, or [`None`] for error
 <!-- trait TaskExt::fn packages_async -->
 Gets the list of packages.
 ## `filters`
@@ -2054,6 +2729,20 @@ the function to run when the progress changes
 data to pass to `progress_callback`
 ## `callback_ready`
 the function to run on completion
+<!-- trait TaskExt::fn packages_sync -->
+Gets the list of packages.
+## `filters`
+a bitfield of filters that can be used to limit the results
+## `cancellable`
+a [`gio::Cancellable`][crate::gio::Cancellable] or [`None`]
+## `progress_callback`
+the function to run when the progress changes
+## `progress_user_data`
+data to pass to `progress_callback`
+
+# Returns
+
+a [`Results`][crate::Results] object, or [`None`] for error
 <!-- trait TaskExt::fn repo_list_async -->
 Get the list of available repositories.
 ## `filters`
@@ -2066,6 +2755,20 @@ the function to run when the progress changes
 data to pass to `progress_callback`
 ## `callback_ready`
 the function to run on completion
+<!-- trait TaskExt::fn repo_list_sync -->
+Get the list of available repositories.
+## `filters`
+a bitfield of filters that can be used to limit the results
+## `cancellable`
+a [`gio::Cancellable`][crate::gio::Cancellable] or [`None`]
+## `progress_callback`
+the function to run when the progress changes
+## `progress_user_data`
+data to pass to `progress_callback`
+
+# Returns
+
+a [`Results`][crate::Results] object, or [`None`] for error
 <!-- trait TaskExt::fn update_detail_async -->
 Gets details about updates.
 ## `package_ids`
@@ -2078,6 +2781,20 @@ the function to run when the progress changes
 data to pass to `progress_callback`
 ## `callback_ready`
 the function to run on completion
+<!-- trait TaskExt::fn update_detail_sync -->
+Gets details about updates.
+## `package_ids`
+a null terminated array of package_id structures such as "hal;0.0.1;i386;fedora"
+## `cancellable`
+a [`gio::Cancellable`][crate::gio::Cancellable] or [`None`]
+## `progress_callback`
+the function to run when the progress changes
+## `progress_user_data`
+data to pass to `progress_callback`
+
+# Returns
+
+a [`Results`][crate::Results] object, or [`None`] for error
 <!-- trait TaskExt::fn updates_async -->
 Gets the update lists.
 ## `filters`
@@ -2090,6 +2807,20 @@ the function to run when the progress changes
 data to pass to `progress_callback`
 ## `callback_ready`
 the function to run on completion
+<!-- trait TaskExt::fn updates_sync -->
+Gets the update lists.
+## `filters`
+a bitfield of filters that can be used to limit the results
+## `cancellable`
+a [`gio::Cancellable`][crate::gio::Cancellable] or [`None`]
+## `progress_callback`
+the function to run when the progress changes
+## `progress_user_data`
+data to pass to `progress_callback`
+
+# Returns
+
+a [`Results`][crate::Results] object, or [`None`] for error
 <!-- trait TaskExt::fn install_files_async -->
 Install a file locally, and get the deps from the repositories.
 This is useful for double clicking on a .rpm or .deb file.
@@ -2103,6 +2834,24 @@ the function to run when the progress changes
 data to pass to `progress_callback`
 ## `callback_ready`
 the function to run on completion
+<!-- trait TaskExt::fn install_files_sync -->
+Install a file locally, and get the deps from the repositories.
+This is useful for double clicking on a .rpm or .deb file.
+
+Warning: this function is synchronous, and may block. Do not use it in GUI
+applications.
+## `files`
+a file such as "/home/hughsie/Desktop/hal-devel-0.10.0.rpm"
+## `cancellable`
+a [`gio::Cancellable`][crate::gio::Cancellable] or [`None`]
+## `progress_callback`
+the function to run when the progress changes
+## `progress_user_data`
+data to pass to `progress_callback`
+
+# Returns
+
+a [`Results`][crate::Results] object, or [`None`] for error
 <!-- trait TaskExt::fn install_packages_async -->
 Merges in details about packages using resolve.
 ## `package_ids`
@@ -2115,6 +2864,23 @@ the function to run when the progress changes
 data to pass to `progress_callback`
 ## `callback_ready`
 the function to run on completion
+<!-- trait TaskExt::fn install_packages_sync -->
+Install a package of the newest and most correct version.
+
+Warning: this function is synchronous, and may block. Do not use it in GUI
+applications.
+## `package_ids`
+a null terminated array of package_id structures such as "hal;0.0.1;i386;fedora"
+## `cancellable`
+a [`gio::Cancellable`][crate::gio::Cancellable] or [`None`]
+## `progress_callback`
+the function to run when the progress changes
+## `progress_user_data`
+data to pass to `progress_callback`
+
+# Returns
+
+a [`Results`][crate::Results] object, or [`None`] for error
 <!-- trait TaskExt::fn refresh_cache_async -->
 Refresh the package cache.
 ## `force`
@@ -2127,6 +2893,20 @@ the function to run when the progress changes
 data to pass to `progress_callback`
 ## `callback_ready`
 the function to run on completion
+<!-- trait TaskExt::fn refresh_cache_sync -->
+Refresh the package cache.
+## `force`
+if the metadata should be deleted and re-downloaded even if it is correct
+## `cancellable`
+a [`gio::Cancellable`][crate::gio::Cancellable] or [`None`]
+## `progress_callback`
+the function to run when the progress changes
+## `progress_user_data`
+data to pass to `progress_callback`
+
+# Returns
+
+a [`Results`][crate::Results] object, or [`None`] for error
 <!-- trait TaskExt::fn remove_packages_async -->
 Remove a package (optionally with dependancies) from the system.
 If `allow_deps` is set to [`false`], and other packages would have to be removed,
@@ -2145,6 +2925,29 @@ the function to run when the progress changes
 data to pass to `progress_callback`
 ## `callback_ready`
 the function to run on completion
+<!-- trait TaskExt::fn remove_packages_sync -->
+Remove a package (optionally with dependancies) from the system.
+If `allow_deps` is set to [`false`], and other packages would have to be removed,
+then the transaction would fail.
+
+Warning: this function is synchronous, and may block. Do not use it in GUI
+applications.
+## `package_ids`
+a null terminated array of package_id structures such as "hal;0.0.1;i386;fedora"
+## `allow_deps`
+if other dependent packages are allowed to be removed from the computer
+## `autoremove`
+if other packages installed at the same time should be tried to remove
+## `cancellable`
+a [`gio::Cancellable`][crate::gio::Cancellable] or [`None`]
+## `progress_callback`
+the function to run when the progress changes
+## `progress_user_data`
+data to pass to `progress_callback`
+
+# Returns
+
+a [`Results`][crate::Results] object, or [`None`] for error
 <!-- trait TaskExt::fn repair_system_async -->
 Recover the system from broken dependencies and aborted installations.
 ## `cancellable`
@@ -2155,6 +2958,22 @@ the function to run when the progress changes
 data to pass to `progress_callback`
 ## `callback_ready`
 the function to run on completion
+<!-- trait TaskExt::fn repair_system_sync -->
+Recover from broken dependencies of installed packages or incomplete
+installations.
+
+Warning: this function is synchronous, and may block. Do not use it in GUI
+applications.
+## `cancellable`
+a [`gio::Cancellable`][crate::gio::Cancellable] or [`None`]
+## `progress_callback`
+the function to run when the progress changes
+## `progress_user_data`
+data to pass to `progress_callback`
+
+# Returns
+
+a [`Results`][crate::Results] object, or [`None`] for error
 <!-- trait TaskExt::fn repo_enable_async -->
 Enable or disable a specific repo.
 ## `repo_id`
@@ -2169,6 +2988,22 @@ the function to run when the progress changes
 data to pass to `progress_callback`
 ## `callback_ready`
 the function to run on completion
+<!-- trait TaskExt::fn repo_enable_sync -->
+Enable or disable a specific repo.
+## `repo_id`
+The software repository ID
+## `enabled`
+[`true`] or [`false`]
+## `cancellable`
+a [`gio::Cancellable`][crate::gio::Cancellable] or [`None`]
+## `progress_callback`
+the function to run when the progress changes
+## `progress_user_data`
+data to pass to `progress_callback`
+
+# Returns
+
+a [`Results`][crate::Results] object, or [`None`] for error
 <!-- trait TaskExt::fn required_by_async -->
 Get the packages this package requires.
 ## `filters`
@@ -2185,6 +3020,24 @@ the function to run when the progress changes
 data to pass to `progress_callback`
 ## `callback_ready`
 the function to run on completion
+<!-- trait TaskExt::fn required_by_sync -->
+Get the packages this package requires.
+## `filters`
+a bitfield of filters that can be used to limit the results
+## `package_ids`
+a null terminated array of package_id structures such as "hal;0.0.1;i386;fedora"
+## `recursive`
+if we should return packages that depend on the ones we do
+## `cancellable`
+a [`gio::Cancellable`][crate::gio::Cancellable] or [`None`]
+## `progress_callback`
+the function to run when the progress changes
+## `progress_user_data`
+data to pass to `progress_callback`
+
+# Returns
+
+a [`Results`][crate::Results] object, or [`None`] for error
 <!-- trait TaskExt::fn resolve_async -->
 Resolves a package name to a package-id.
 ## `filters`
@@ -2199,6 +3052,22 @@ the function to run when the progress changes
 data to pass to `progress_callback`
 ## `callback_ready`
 the function to run on completion
+<!-- trait TaskExt::fn resolve_sync -->
+Resolves a package name to a package-id.
+## `filters`
+a bitfield of filters that can be used to limit the results
+## `packages`
+package names to find
+## `cancellable`
+a [`gio::Cancellable`][crate::gio::Cancellable] or [`None`]
+## `progress_callback`
+the function to run when the progress changes
+## `progress_user_data`
+data to pass to `progress_callback`
+
+# Returns
+
+a [`Results`][crate::Results] object, or [`None`] for error
 <!-- trait TaskExt::fn search_details_async -->
 Searches for some package details.
 ## `filters`
@@ -2213,6 +3082,22 @@ the function to run when the progress changes
 data to pass to `progress_callback`
 ## `callback_ready`
 the function to run on completion
+<!-- trait TaskExt::fn search_details_sync -->
+Searches for some package details.
+## `filters`
+a bitfield of filters that can be used to limit the results
+## `values`
+search values
+## `cancellable`
+a [`gio::Cancellable`][crate::gio::Cancellable] or [`None`]
+## `progress_callback`
+the function to run when the progress changes
+## `progress_user_data`
+data to pass to `progress_callback`
+
+# Returns
+
+a [`Results`][crate::Results] object, or [`None`] for error
 <!-- trait TaskExt::fn search_files_async -->
 Searches for specific files.
 ## `filters`
@@ -2227,6 +3112,22 @@ the function to run when the progress changes
 data to pass to `progress_callback`
 ## `callback_ready`
 the function to run on completion
+<!-- trait TaskExt::fn search_files_sync -->
+Searches for specific files.
+## `filters`
+a bitfield of filters that can be used to limit the results
+## `values`
+search values
+## `cancellable`
+a [`gio::Cancellable`][crate::gio::Cancellable] or [`None`]
+## `progress_callback`
+the function to run when the progress changes
+## `progress_user_data`
+data to pass to `progress_callback`
+
+# Returns
+
+a [`Results`][crate::Results] object, or [`None`] for error
 <!-- trait TaskExt::fn search_groups_async -->
 Searches the group lists.
 ## `filters`
@@ -2241,6 +3142,22 @@ the function to run when the progress changes
 data to pass to `progress_callback`
 ## `callback_ready`
 the function to run on completion
+<!-- trait TaskExt::fn search_groups_sync -->
+Searches the group lists.
+## `filters`
+a bitfield of filters that can be used to limit the results
+## `values`
+search values
+## `cancellable`
+a [`gio::Cancellable`][crate::gio::Cancellable] or [`None`]
+## `progress_callback`
+the function to run when the progress changes
+## `progress_user_data`
+data to pass to `progress_callback`
+
+# Returns
+
+a [`Results`][crate::Results] object, or [`None`] for error
 <!-- trait TaskExt::fn search_names_async -->
 Searches for a package name.
 ## `filters`
@@ -2255,6 +3172,22 @@ the function to run when the progress changes
 data to pass to `progress_callback`
 ## `callback_ready`
 the function to run on completion
+<!-- trait TaskExt::fn search_names_sync -->
+Searches for a package name.
+## `filters`
+a bitfield of filters that can be used to limit the results
+## `values`
+search values
+## `cancellable`
+a [`gio::Cancellable`][crate::gio::Cancellable] or [`None`]
+## `progress_callback`
+the function to run when the progress changes
+## `progress_user_data`
+data to pass to `progress_callback`
+
+# Returns
+
+a [`Results`][crate::Results] object, or [`None`] for error
 <!-- trait TaskExt::fn update_packages_async -->
 Update specific packages to the newest available versions.
 ## `package_ids`
@@ -2267,6 +3200,23 @@ the function to run when the progress changes
 data to pass to `progress_callback`
 ## `callback_ready`
 the function to run on completion
+<!-- trait TaskExt::fn update_packages_sync -->
+Update specific packages to the newest available versions.
+
+Warning: this function is synchronous, and may block. Do not use it in GUI
+applications.
+## `package_ids`
+a null terminated array of package_id structures such as "hal;0.0.1;i386;fedora"
+## `cancellable`
+a [`gio::Cancellable`][crate::gio::Cancellable] or [`None`]
+## `progress_callback`
+the function to run when the progress changes
+## `progress_user_data`
+data to pass to `progress_callback`
+
+# Returns
+
+a [`Results`][crate::Results] object, or [`None`] for error
 <!-- trait TaskExt::fn upgrade_system_async -->
 This transaction will update the distro to the next version, which may
 involve just downloading the installer and setting up the boot device,
@@ -2285,6 +3235,26 @@ the function to run when the progress changes
 data to pass to `progress_callback`
 ## `callback_ready`
 the function to run on completion
+<!-- trait TaskExt::fn upgrade_system_sync -->
+This transaction will update the distro to the next version, which may
+involve just downloading the installer and setting up the boot device,
+or may involve doing an on-line upgrade.
+
+The backend will decide what is best to do.
+## `distro_id`
+a distro ID such as "fedora-14"
+## `upgrade_kind`
+a [`UpgradeKindEnum`][crate::UpgradeKindEnum] such as [`UpgradeKindEnum::Complete`][crate::UpgradeKindEnum::Complete]
+## `cancellable`
+a [`gio::Cancellable`][crate::gio::Cancellable] or [`None`]
+## `progress_callback`
+the function to run when the progress changes
+## `progress_user_data`
+data to pass to `progress_callback`
+
+# Returns
+
+a [`Results`][crate::Results] object, or [`None`] for error
 <!-- trait TaskExt::fn what_provides_async -->
 Find the package that provides some resource.
 ## `filters`
@@ -2299,6 +3269,22 @@ the function to run when the progress changes
 data to pass to `progress_callback`
 ## `callback_ready`
 the function to run on completion
+<!-- trait TaskExt::fn what_provides_sync -->
+Find the package that provides some resource.
+## `filters`
+a bitfield of filters that can be used to limit the results
+## `values`
+values to search for
+## `cancellable`
+a [`gio::Cancellable`][crate::gio::Cancellable] or [`None`]
+## `progress_callback`
+the function to run when the progress changes
+## `progress_user_data`
+data to pass to `progress_callback`
+
+# Returns
+
+a [`Results`][crate::Results] object, or [`None`] for error
 <!-- trait TaskExt::fn allow_downgrade -->
 [`true`] if package downgrades are allowed.
 <!-- trait TaskExt::fn allow_reinstall -->

@@ -7,15 +7,6 @@ use crate::{Client};
 #[cfg(feature = "v0_5_2")]
 #[cfg_attr(docsrs, doc(cfg(feature = "v0_5_2")))]
 use crate::{Results};
-#[cfg(feature = "v0_5_3")]
-#[cfg_attr(docsrs, doc(cfg(feature = "v0_5_3")))]
-use crate::{Progress,ProgressType};
-#[cfg(feature = "v0_6_5")]
-#[cfg_attr(docsrs, doc(cfg(feature = "v0_6_5")))]
-use crate::{Bitfield};
-#[cfg(feature = "v1_0_12")]
-#[cfg_attr(docsrs, doc(cfg(feature = "v1_0_12")))]
-use crate::{UpgradeKindEnum};
 use glib::{prelude::*};
 #[cfg(feature = "v0_5_2")]
 #[cfg_attr(docsrs, doc(cfg(feature = "v0_5_2")))]
@@ -75,90 +66,80 @@ pub trait TaskExt: IsA<Task> + sealed::Sealed + 'static {
     //#[cfg(not(feature = "v0_5_2"))]
     //#[cfg_attr(docsrs, doc(cfg(not(feature = "v0_5_2"))))]
     //#[doc(alias = "pk_task_depends_on_async")]
-    //fn depends_on_async<P: Fn(&Progress, &ProgressType) + 'static>(&self, filters: Bitfield, package_ids: &[&str], recursive: bool, cancellable: Option<&impl IsA<gio::Cancellable>>, progress_callback: P, callback_ready: AsyncReadyCallback) {
+    //fn depends_on_async(&self, filters: Bitfield, package_ids: &[&str], recursive: bool, cancellable: Option<&impl IsA<gio::Cancellable>>, progress_callback: /*Unimplemented*/Fn(&Progress, /*Ignored*/ProgressType), callback_ready: AsyncReadyCallback) {
     //    unsafe { TODO: call ffi:pk_task_depends_on_async() }
     //}
 
-    /// Get the list of dependent packages.
-    /// ## `filters`
-    /// a bitfield of filters that can be used to limit the results
-    /// ## `package_ids`
-    /// a null terminated array of package_id structures such as "hal;0.0.1;i386;fedora"
-    /// ## `recursive`
-    /// if we should recurse to packages that depend on other packages
-    /// ## `cancellable`
-    /// a [`gio::Cancellable`][crate::gio::Cancellable] or [`None`]
-    /// ## `progress_callback`
-    /// the function to run when the progress changes
-    /// ## `progress_user_data`
-    /// data to pass to `progress_callback`
-    ///
-    /// # Returns
-    ///
-    /// a [`Results`][crate::Results] object, or [`None`] for error
-    #[cfg(feature = "v0_6_5")]
-    #[cfg_attr(docsrs, doc(cfg(feature = "v0_6_5")))]
-    #[doc(alias = "pk_task_depends_on_sync")]
-    fn depends_on_sync<P: FnMut(&Progress, &ProgressType)>(&self, filters: Bitfield, package_ids: &[&str], recursive: bool, cancellable: Option<&impl IsA<gio::Cancellable>>, progress_callback: P) -> Result<Results, glib::Error> {
-        let progress_callback_data: P = progress_callback;
-        unsafe extern "C" fn progress_callback_func<P: FnMut(&Progress, &ProgressType)>(progress: *mut ffi::PkProgress, type_: ffi::PkProgressType, user_data: glib::ffi::gpointer) {
-            let progress = from_glib_borrow(progress);
-            let type_ = from_glib_borrow(type_);
-            let callback = user_data as *mut P;
-            (*callback)(&progress, &type_)
-        }
-        let progress_callback = Some(progress_callback_func::<P> as _);
-        let super_callback0: &P = &progress_callback_data;
-        unsafe {
-            let mut error = std::ptr::null_mut();
-            let ret = ffi::pk_task_depends_on_sync(self.as_ref().to_glib_none().0, filters, package_ids.to_glib_none().0, recursive.into_glib(), cancellable.map(|p| p.as_ref()).to_glib_none().0, progress_callback, super_callback0 as *const _ as *mut _, &mut error);
-            if error.is_null() { Ok(from_glib_full(ret)) } else { Err(from_glib_full(error)) }
-        }
-    }
+    //
+    //#[cfg(feature = "v0_6_5")]
+    //#[cfg_attr(docsrs, doc(cfg(feature = "v0_6_5")))]
+    //#[cfg(not(feature = "v0_5_2"))]
+    //#[cfg_attr(docsrs, doc(cfg(not(feature = "v0_5_2"))))]
+    //fn depends_on_future(&self, filters: Bitfield, package_ids: &[&str], recursive: bool, progress_callback: /*Unimplemented*/Fn(&Progress, /*Ignored*/ProgressType), callback_ready: AsyncReadyCallback) -> Pin<Box_<dyn std::future::Future<Output = > + 'static>> {
+
+        //let package_ids = package_ids.clone();
+        //let callback_ready = callback_ready.map(ToOwned::to_owned);
+        //Box_::pin(gio::GioFuture::new(self, move |obj, cancellable, send| {
+        //    obj.depends_on_async(
+        //        filters,
+        //        &package_ids,
+        //        recursive,
+        //        Some(cancellable),
+        //        progress_callback,
+        //        callback_ready.as_ref().map(::std::borrow::Borrow::borrow),
+        //        move |res| {
+        //            send.resolve(res);
+        //        },
+        //    );
+        //}))
+    //}
+
+    //#[cfg(feature = "v0_6_5")]
+    //#[cfg_attr(docsrs, doc(cfg(feature = "v0_6_5")))]
+    //#[doc(alias = "pk_task_depends_on_sync")]
+    //fn depends_on_sync(&self, filters: Bitfield, package_ids: &[&str], recursive: bool, cancellable: Option<&impl IsA<gio::Cancellable>>, progress_callback: /*Unimplemented*/FnMut(&Progress, /*Ignored*/ProgressType), progress_user_data: /*Unimplemented*/Option<Basic: Pointer>) -> Result<Results, glib::Error> {
+    //    unsafe { TODO: call ffi:pk_task_depends_on_sync() }
+    //}
 
     //#[cfg(feature = "v0_6_5")]
     //#[cfg_attr(docsrs, doc(cfg(feature = "v0_6_5")))]
     //#[cfg(not(feature = "v0_5_2"))]
     //#[cfg_attr(docsrs, doc(cfg(not(feature = "v0_5_2"))))]
     //#[doc(alias = "pk_task_download_packages_async")]
-    //fn download_packages_async<P: Fn(&Progress, &ProgressType) + 'static>(&self, package_ids: &[&str], directory: &str, cancellable: Option<&impl IsA<gio::Cancellable>>, progress_callback: P, callback_ready: AsyncReadyCallback) {
+    //fn download_packages_async(&self, package_ids: &[&str], directory: &str, cancellable: Option<&impl IsA<gio::Cancellable>>, progress_callback: /*Unimplemented*/Fn(&Progress, /*Ignored*/ProgressType), callback_ready: AsyncReadyCallback) {
     //    unsafe { TODO: call ffi:pk_task_download_packages_async() }
     //}
 
-    /// Downloads packages
-    /// ## `package_ids`
-    /// a null terminated array of package_id structures such as "hal;0.0.1;i386;fedora"
-    /// ## `directory`
-    /// the destination directory
-    /// ## `cancellable`
-    /// a [`gio::Cancellable`][crate::gio::Cancellable] or [`None`]
-    /// ## `progress_callback`
-    /// the function to run when the progress changes
-    /// ## `progress_user_data`
-    /// data to pass to `progress_callback`
-    ///
-    /// # Returns
-    ///
-    /// a [`Results`][crate::Results] object, or [`None`] for error
-    #[cfg(feature = "v0_6_5")]
-    #[cfg_attr(docsrs, doc(cfg(feature = "v0_6_5")))]
-    #[doc(alias = "pk_task_download_packages_sync")]
-    fn download_packages_sync<P: FnMut(&Progress, &ProgressType)>(&self, package_ids: &[&str], directory: &str, cancellable: Option<&impl IsA<gio::Cancellable>>, progress_callback: P) -> Result<Results, glib::Error> {
-        let progress_callback_data: P = progress_callback;
-        unsafe extern "C" fn progress_callback_func<P: FnMut(&Progress, &ProgressType)>(progress: *mut ffi::PkProgress, type_: ffi::PkProgressType, user_data: glib::ffi::gpointer) {
-            let progress = from_glib_borrow(progress);
-            let type_ = from_glib_borrow(type_);
-            let callback = user_data as *mut P;
-            (*callback)(&progress, &type_)
-        }
-        let progress_callback = Some(progress_callback_func::<P> as _);
-        let super_callback0: &P = &progress_callback_data;
-        unsafe {
-            let mut error = std::ptr::null_mut();
-            let ret = ffi::pk_task_download_packages_sync(self.as_ref().to_glib_none().0, package_ids.to_glib_none().0, directory.to_glib_none().0, cancellable.map(|p| p.as_ref()).to_glib_none().0, progress_callback, super_callback0 as *const _ as *mut _, &mut error);
-            if error.is_null() { Ok(from_glib_full(ret)) } else { Err(from_glib_full(error)) }
-        }
-    }
+    //
+    //#[cfg(feature = "v0_6_5")]
+    //#[cfg_attr(docsrs, doc(cfg(feature = "v0_6_5")))]
+    //#[cfg(not(feature = "v0_5_2"))]
+    //#[cfg_attr(docsrs, doc(cfg(not(feature = "v0_5_2"))))]
+    //fn download_packages_future(&self, package_ids: &[&str], directory: &str, progress_callback: /*Unimplemented*/Fn(&Progress, /*Ignored*/ProgressType), callback_ready: AsyncReadyCallback) -> Pin<Box_<dyn std::future::Future<Output = > + 'static>> {
+
+        //let package_ids = package_ids.clone();
+        //let directory = String::from(directory);
+        //let callback_ready = callback_ready.map(ToOwned::to_owned);
+        //Box_::pin(gio::GioFuture::new(self, move |obj, cancellable, send| {
+        //    obj.download_packages_async(
+        //        &package_ids,
+        //        &directory,
+        //        Some(cancellable),
+        //        progress_callback,
+        //        callback_ready.as_ref().map(::std::borrow::Borrow::borrow),
+        //        move |res| {
+        //            send.resolve(res);
+        //        },
+        //    );
+        //}))
+    //}
+
+    //#[cfg(feature = "v0_6_5")]
+    //#[cfg_attr(docsrs, doc(cfg(feature = "v0_6_5")))]
+    //#[doc(alias = "pk_task_download_packages_sync")]
+    //fn download_packages_sync(&self, package_ids: &[&str], directory: &str, cancellable: Option<&impl IsA<gio::Cancellable>>, progress_callback: /*Unimplemented*/FnMut(&Progress, /*Ignored*/ProgressType), progress_user_data: /*Unimplemented*/Option<Basic: Pointer>) -> Result<Results, glib::Error> {
+    //    unsafe { TODO: call ffi:pk_task_download_packages_sync() }
+    //}
 
     /// Gets if we are allow packages to be downgraded.
     ///
@@ -196,41 +177,37 @@ pub trait TaskExt: IsA<Task> + sealed::Sealed + 'static {
     //#[cfg_attr(docsrs, doc(cfg(not(feature = "v0_5_2"))))]
     //#[doc(alias = "pk_task_get_categories_async")]
     //#[doc(alias = "get_categories_async")]
-    //fn categories_async<P: Fn(&Progress, &ProgressType) + 'static>(&self, cancellable: Option<&impl IsA<gio::Cancellable>>, progress_callback: P, callback_ready: AsyncReadyCallback) {
+    //fn categories_async(&self, cancellable: Option<&impl IsA<gio::Cancellable>>, progress_callback: /*Unimplemented*/Fn(&Progress, /*Ignored*/ProgressType), callback_ready: AsyncReadyCallback) {
     //    unsafe { TODO: call ffi:pk_task_get_categories_async() }
     //}
 
-    /// Get the categories available.
-    /// ## `cancellable`
-    /// a [`gio::Cancellable`][crate::gio::Cancellable] or [`None`]
-    /// ## `progress_callback`
-    /// the function to run when the progress changes
-    /// ## `progress_user_data`
-    /// data to pass to `progress_callback`
-    ///
-    /// # Returns
-    ///
-    /// a [`Results`][crate::Results] object, or [`None`] for error
-    #[cfg(feature = "v0_6_5")]
-    #[cfg_attr(docsrs, doc(cfg(feature = "v0_6_5")))]
-    #[doc(alias = "pk_task_get_categories_sync")]
-    #[doc(alias = "get_categories_sync")]
-    fn categories_sync<P: FnMut(&Progress, &ProgressType)>(&self, cancellable: Option<&impl IsA<gio::Cancellable>>, progress_callback: P) -> Result<Results, glib::Error> {
-        let progress_callback_data: P = progress_callback;
-        unsafe extern "C" fn progress_callback_func<P: FnMut(&Progress, &ProgressType)>(progress: *mut ffi::PkProgress, type_: ffi::PkProgressType, user_data: glib::ffi::gpointer) {
-            let progress = from_glib_borrow(progress);
-            let type_ = from_glib_borrow(type_);
-            let callback = user_data as *mut P;
-            (*callback)(&progress, &type_)
-        }
-        let progress_callback = Some(progress_callback_func::<P> as _);
-        let super_callback0: &P = &progress_callback_data;
-        unsafe {
-            let mut error = std::ptr::null_mut();
-            let ret = ffi::pk_task_get_categories_sync(self.as_ref().to_glib_none().0, cancellable.map(|p| p.as_ref()).to_glib_none().0, progress_callback, super_callback0 as *const _ as *mut _, &mut error);
-            if error.is_null() { Ok(from_glib_full(ret)) } else { Err(from_glib_full(error)) }
-        }
-    }
+    //
+    //#[cfg(feature = "v0_6_5")]
+    //#[cfg_attr(docsrs, doc(cfg(feature = "v0_6_5")))]
+    //#[cfg(not(feature = "v0_5_2"))]
+    //#[cfg_attr(docsrs, doc(cfg(not(feature = "v0_5_2"))))]
+    //fn categories_future(&self, progress_callback: /*Unimplemented*/Fn(&Progress, /*Ignored*/ProgressType), callback_ready: AsyncReadyCallback) -> Pin<Box_<dyn std::future::Future<Output = > + 'static>> {
+
+        //let callback_ready = callback_ready.map(ToOwned::to_owned);
+        //Box_::pin(gio::GioFuture::new(self, move |obj, cancellable, send| {
+        //    obj.categories_async(
+        //        Some(cancellable),
+        //        progress_callback,
+        //        callback_ready.as_ref().map(::std::borrow::Borrow::borrow),
+        //        move |res| {
+        //            send.resolve(res);
+        //        },
+        //    );
+        //}))
+    //}
+
+    //#[cfg(feature = "v0_6_5")]
+    //#[cfg_attr(docsrs, doc(cfg(feature = "v0_6_5")))]
+    //#[doc(alias = "pk_task_get_categories_sync")]
+    //#[doc(alias = "get_categories_sync")]
+    //fn categories_sync(&self, cancellable: Option<&impl IsA<gio::Cancellable>>, progress_callback: /*Unimplemented*/FnMut(&Progress, /*Ignored*/ProgressType), progress_user_data: /*Unimplemented*/Option<Basic: Pointer>) -> Result<Results, glib::Error> {
+    //    unsafe { TODO: call ffi:pk_task_get_categories_sync() }
+    //}
 
     //#[cfg(feature = "v0_6_5")]
     //#[cfg_attr(docsrs, doc(cfg(feature = "v0_6_5")))]
@@ -238,43 +215,39 @@ pub trait TaskExt: IsA<Task> + sealed::Sealed + 'static {
     //#[cfg_attr(docsrs, doc(cfg(not(feature = "v0_5_2"))))]
     //#[doc(alias = "pk_task_get_details_async")]
     //#[doc(alias = "get_details_async")]
-    //fn details_async<P: Fn(&Progress, &ProgressType) + 'static>(&self, package_ids: &[&str], cancellable: Option<&impl IsA<gio::Cancellable>>, progress_callback: P, callback_ready: AsyncReadyCallback) {
+    //fn details_async(&self, package_ids: &[&str], cancellable: Option<&impl IsA<gio::Cancellable>>, progress_callback: /*Unimplemented*/Fn(&Progress, /*Ignored*/ProgressType), callback_ready: AsyncReadyCallback) {
     //    unsafe { TODO: call ffi:pk_task_get_details_async() }
     //}
 
-    /// Gets details about packages.
-    /// ## `package_ids`
-    /// a null terminated array of package_id structures such as "hal;0.0.1;i386;fedora"
-    /// ## `cancellable`
-    /// a [`gio::Cancellable`][crate::gio::Cancellable] or [`None`]
-    /// ## `progress_callback`
-    /// the function to run when the progress changes
-    /// ## `progress_user_data`
-    /// data to pass to `progress_callback`
-    ///
-    /// # Returns
-    ///
-    /// a [`Results`][crate::Results] object, or [`None`] for error
-    #[cfg(feature = "v0_6_5")]
-    #[cfg_attr(docsrs, doc(cfg(feature = "v0_6_5")))]
-    #[doc(alias = "pk_task_get_details_sync")]
-    #[doc(alias = "get_details_sync")]
-    fn details_sync<P: FnMut(&Progress, &ProgressType)>(&self, package_ids: &[&str], cancellable: Option<&impl IsA<gio::Cancellable>>, progress_callback: P) -> Result<Results, glib::Error> {
-        let progress_callback_data: P = progress_callback;
-        unsafe extern "C" fn progress_callback_func<P: FnMut(&Progress, &ProgressType)>(progress: *mut ffi::PkProgress, type_: ffi::PkProgressType, user_data: glib::ffi::gpointer) {
-            let progress = from_glib_borrow(progress);
-            let type_ = from_glib_borrow(type_);
-            let callback = user_data as *mut P;
-            (*callback)(&progress, &type_)
-        }
-        let progress_callback = Some(progress_callback_func::<P> as _);
-        let super_callback0: &P = &progress_callback_data;
-        unsafe {
-            let mut error = std::ptr::null_mut();
-            let ret = ffi::pk_task_get_details_sync(self.as_ref().to_glib_none().0, package_ids.to_glib_none().0, cancellable.map(|p| p.as_ref()).to_glib_none().0, progress_callback, super_callback0 as *const _ as *mut _, &mut error);
-            if error.is_null() { Ok(from_glib_full(ret)) } else { Err(from_glib_full(error)) }
-        }
-    }
+    //
+    //#[cfg(feature = "v0_6_5")]
+    //#[cfg_attr(docsrs, doc(cfg(feature = "v0_6_5")))]
+    //#[cfg(not(feature = "v0_5_2"))]
+    //#[cfg_attr(docsrs, doc(cfg(not(feature = "v0_5_2"))))]
+    //fn details_future(&self, package_ids: &[&str], progress_callback: /*Unimplemented*/Fn(&Progress, /*Ignored*/ProgressType), callback_ready: AsyncReadyCallback) -> Pin<Box_<dyn std::future::Future<Output = > + 'static>> {
+
+        //let package_ids = package_ids.clone();
+        //let callback_ready = callback_ready.map(ToOwned::to_owned);
+        //Box_::pin(gio::GioFuture::new(self, move |obj, cancellable, send| {
+        //    obj.details_async(
+        //        &package_ids,
+        //        Some(cancellable),
+        //        progress_callback,
+        //        callback_ready.as_ref().map(::std::borrow::Borrow::borrow),
+        //        move |res| {
+        //            send.resolve(res);
+        //        },
+        //    );
+        //}))
+    //}
+
+    //#[cfg(feature = "v0_6_5")]
+    //#[cfg_attr(docsrs, doc(cfg(feature = "v0_6_5")))]
+    //#[doc(alias = "pk_task_get_details_sync")]
+    //#[doc(alias = "get_details_sync")]
+    //fn details_sync(&self, package_ids: &[&str], cancellable: Option<&impl IsA<gio::Cancellable>>, progress_callback: /*Unimplemented*/FnMut(&Progress, /*Ignored*/ProgressType), progress_user_data: /*Unimplemented*/Option<Basic: Pointer>) -> Result<Results, glib::Error> {
+    //    unsafe { TODO: call ffi:pk_task_get_details_sync() }
+    //}
 
     //#[cfg(feature = "v0_6_5")]
     //#[cfg_attr(docsrs, doc(cfg(feature = "v0_6_5")))]
@@ -282,43 +255,39 @@ pub trait TaskExt: IsA<Task> + sealed::Sealed + 'static {
     //#[cfg_attr(docsrs, doc(cfg(not(feature = "v0_5_2"))))]
     //#[doc(alias = "pk_task_get_files_async")]
     //#[doc(alias = "get_files_async")]
-    //fn files_async<P: Fn(&Progress, &ProgressType) + 'static>(&self, package_ids: &[&str], cancellable: Option<&impl IsA<gio::Cancellable>>, progress_callback: P, callback_ready: AsyncReadyCallback) {
+    //fn files_async(&self, package_ids: &[&str], cancellable: Option<&impl IsA<gio::Cancellable>>, progress_callback: /*Unimplemented*/Fn(&Progress, /*Ignored*/ProgressType), callback_ready: AsyncReadyCallback) {
     //    unsafe { TODO: call ffi:pk_task_get_files_async() }
     //}
 
-    /// Get the files in a package.
-    /// ## `package_ids`
-    /// a null terminated array of package_id structures such as "hal;0.0.1;i386;fedora"
-    /// ## `cancellable`
-    /// a [`gio::Cancellable`][crate::gio::Cancellable] or [`None`]
-    /// ## `progress_callback`
-    /// the function to run when the progress changes
-    /// ## `progress_user_data`
-    /// data to pass to `progress_callback`
-    ///
-    /// # Returns
-    ///
-    /// a [`Results`][crate::Results] object, or [`None`] for error
-    #[cfg(feature = "v0_6_5")]
-    #[cfg_attr(docsrs, doc(cfg(feature = "v0_6_5")))]
-    #[doc(alias = "pk_task_get_files_sync")]
-    #[doc(alias = "get_files_sync")]
-    fn files_sync<P: FnMut(&Progress, &ProgressType)>(&self, package_ids: &[&str], cancellable: Option<&impl IsA<gio::Cancellable>>, progress_callback: P) -> Result<Results, glib::Error> {
-        let progress_callback_data: P = progress_callback;
-        unsafe extern "C" fn progress_callback_func<P: FnMut(&Progress, &ProgressType)>(progress: *mut ffi::PkProgress, type_: ffi::PkProgressType, user_data: glib::ffi::gpointer) {
-            let progress = from_glib_borrow(progress);
-            let type_ = from_glib_borrow(type_);
-            let callback = user_data as *mut P;
-            (*callback)(&progress, &type_)
-        }
-        let progress_callback = Some(progress_callback_func::<P> as _);
-        let super_callback0: &P = &progress_callback_data;
-        unsafe {
-            let mut error = std::ptr::null_mut();
-            let ret = ffi::pk_task_get_files_sync(self.as_ref().to_glib_none().0, package_ids.to_glib_none().0, cancellable.map(|p| p.as_ref()).to_glib_none().0, progress_callback, super_callback0 as *const _ as *mut _, &mut error);
-            if error.is_null() { Ok(from_glib_full(ret)) } else { Err(from_glib_full(error)) }
-        }
-    }
+    //
+    //#[cfg(feature = "v0_6_5")]
+    //#[cfg_attr(docsrs, doc(cfg(feature = "v0_6_5")))]
+    //#[cfg(not(feature = "v0_5_2"))]
+    //#[cfg_attr(docsrs, doc(cfg(not(feature = "v0_5_2"))))]
+    //fn files_future(&self, package_ids: &[&str], progress_callback: /*Unimplemented*/Fn(&Progress, /*Ignored*/ProgressType), callback_ready: AsyncReadyCallback) -> Pin<Box_<dyn std::future::Future<Output = > + 'static>> {
+
+        //let package_ids = package_ids.clone();
+        //let callback_ready = callback_ready.map(ToOwned::to_owned);
+        //Box_::pin(gio::GioFuture::new(self, move |obj, cancellable, send| {
+        //    obj.files_async(
+        //        &package_ids,
+        //        Some(cancellable),
+        //        progress_callback,
+        //        callback_ready.as_ref().map(::std::borrow::Borrow::borrow),
+        //        move |res| {
+        //            send.resolve(res);
+        //        },
+        //    );
+        //}))
+    //}
+
+    //#[cfg(feature = "v0_6_5")]
+    //#[cfg_attr(docsrs, doc(cfg(feature = "v0_6_5")))]
+    //#[doc(alias = "pk_task_get_files_sync")]
+    //#[doc(alias = "get_files_sync")]
+    //fn files_sync(&self, package_ids: &[&str], cancellable: Option<&impl IsA<gio::Cancellable>>, progress_callback: /*Unimplemented*/FnMut(&Progress, /*Ignored*/ProgressType), progress_user_data: /*Unimplemented*/Option<Basic: Pointer>) -> Result<Results, glib::Error> {
+    //    unsafe { TODO: call ffi:pk_task_get_files_sync() }
+    //}
 
     /// Gets if we are just preparing the transaction for later.
     ///
@@ -356,43 +325,38 @@ pub trait TaskExt: IsA<Task> + sealed::Sealed + 'static {
     //#[cfg_attr(docsrs, doc(cfg(not(feature = "v0_5_2"))))]
     //#[doc(alias = "pk_task_get_packages_async")]
     //#[doc(alias = "get_packages_async")]
-    //fn packages_async<P: Fn(&Progress, &ProgressType) + 'static>(&self, filters: Bitfield, cancellable: Option<&impl IsA<gio::Cancellable>>, progress_callback: P, callback_ready: AsyncReadyCallback) {
+    //fn packages_async(&self, filters: Bitfield, cancellable: Option<&impl IsA<gio::Cancellable>>, progress_callback: /*Unimplemented*/Fn(&Progress, /*Ignored*/ProgressType), callback_ready: AsyncReadyCallback) {
     //    unsafe { TODO: call ffi:pk_task_get_packages_async() }
     //}
 
-    /// Gets the list of packages.
-    /// ## `filters`
-    /// a bitfield of filters that can be used to limit the results
-    /// ## `cancellable`
-    /// a [`gio::Cancellable`][crate::gio::Cancellable] or [`None`]
-    /// ## `progress_callback`
-    /// the function to run when the progress changes
-    /// ## `progress_user_data`
-    /// data to pass to `progress_callback`
-    ///
-    /// # Returns
-    ///
-    /// a [`Results`][crate::Results] object, or [`None`] for error
-    #[cfg(feature = "v0_6_5")]
-    #[cfg_attr(docsrs, doc(cfg(feature = "v0_6_5")))]
-    #[doc(alias = "pk_task_get_packages_sync")]
-    #[doc(alias = "get_packages_sync")]
-    fn packages_sync<P: FnMut(&Progress, &ProgressType)>(&self, filters: Bitfield, cancellable: Option<&impl IsA<gio::Cancellable>>, progress_callback: P) -> Result<Results, glib::Error> {
-        let progress_callback_data: P = progress_callback;
-        unsafe extern "C" fn progress_callback_func<P: FnMut(&Progress, &ProgressType)>(progress: *mut ffi::PkProgress, type_: ffi::PkProgressType, user_data: glib::ffi::gpointer) {
-            let progress = from_glib_borrow(progress);
-            let type_ = from_glib_borrow(type_);
-            let callback = user_data as *mut P;
-            (*callback)(&progress, &type_)
-        }
-        let progress_callback = Some(progress_callback_func::<P> as _);
-        let super_callback0: &P = &progress_callback_data;
-        unsafe {
-            let mut error = std::ptr::null_mut();
-            let ret = ffi::pk_task_get_packages_sync(self.as_ref().to_glib_none().0, filters, cancellable.map(|p| p.as_ref()).to_glib_none().0, progress_callback, super_callback0 as *const _ as *mut _, &mut error);
-            if error.is_null() { Ok(from_glib_full(ret)) } else { Err(from_glib_full(error)) }
-        }
-    }
+    //
+    //#[cfg(feature = "v0_6_5")]
+    //#[cfg_attr(docsrs, doc(cfg(feature = "v0_6_5")))]
+    //#[cfg(not(feature = "v0_5_2"))]
+    //#[cfg_attr(docsrs, doc(cfg(not(feature = "v0_5_2"))))]
+    //fn packages_future(&self, filters: Bitfield, progress_callback: /*Unimplemented*/Fn(&Progress, /*Ignored*/ProgressType), callback_ready: AsyncReadyCallback) -> Pin<Box_<dyn std::future::Future<Output = > + 'static>> {
+
+        //let callback_ready = callback_ready.map(ToOwned::to_owned);
+        //Box_::pin(gio::GioFuture::new(self, move |obj, cancellable, send| {
+        //    obj.packages_async(
+        //        filters,
+        //        Some(cancellable),
+        //        progress_callback,
+        //        callback_ready.as_ref().map(::std::borrow::Borrow::borrow),
+        //        move |res| {
+        //            send.resolve(res);
+        //        },
+        //    );
+        //}))
+    //}
+
+    //#[cfg(feature = "v0_6_5")]
+    //#[cfg_attr(docsrs, doc(cfg(feature = "v0_6_5")))]
+    //#[doc(alias = "pk_task_get_packages_sync")]
+    //#[doc(alias = "get_packages_sync")]
+    //fn packages_sync(&self, filters: Bitfield, cancellable: Option<&impl IsA<gio::Cancellable>>, progress_callback: /*Unimplemented*/FnMut(&Progress, /*Ignored*/ProgressType), progress_user_data: /*Unimplemented*/Option<Basic: Pointer>) -> Result<Results, glib::Error> {
+    //    unsafe { TODO: call ffi:pk_task_get_packages_sync() }
+    //}
 
     //#[cfg(feature = "v0_6_5")]
     //#[cfg_attr(docsrs, doc(cfg(feature = "v0_6_5")))]
@@ -400,43 +364,38 @@ pub trait TaskExt: IsA<Task> + sealed::Sealed + 'static {
     //#[cfg_attr(docsrs, doc(cfg(not(feature = "v0_5_2"))))]
     //#[doc(alias = "pk_task_get_repo_list_async")]
     //#[doc(alias = "get_repo_list_async")]
-    //fn repo_list_async<P: Fn(&Progress, &ProgressType) + 'static>(&self, filters: Bitfield, cancellable: Option<&impl IsA<gio::Cancellable>>, progress_callback: P, callback_ready: AsyncReadyCallback) {
+    //fn repo_list_async(&self, filters: Bitfield, cancellable: Option<&impl IsA<gio::Cancellable>>, progress_callback: /*Unimplemented*/Fn(&Progress, /*Ignored*/ProgressType), callback_ready: AsyncReadyCallback) {
     //    unsafe { TODO: call ffi:pk_task_get_repo_list_async() }
     //}
 
-    /// Get the list of available repositories.
-    /// ## `filters`
-    /// a bitfield of filters that can be used to limit the results
-    /// ## `cancellable`
-    /// a [`gio::Cancellable`][crate::gio::Cancellable] or [`None`]
-    /// ## `progress_callback`
-    /// the function to run when the progress changes
-    /// ## `progress_user_data`
-    /// data to pass to `progress_callback`
-    ///
-    /// # Returns
-    ///
-    /// a [`Results`][crate::Results] object, or [`None`] for error
-    #[cfg(feature = "v0_6_5")]
-    #[cfg_attr(docsrs, doc(cfg(feature = "v0_6_5")))]
-    #[doc(alias = "pk_task_get_repo_list_sync")]
-    #[doc(alias = "get_repo_list_sync")]
-    fn repo_list_sync<P: FnMut(&Progress, &ProgressType)>(&self, filters: Bitfield, cancellable: Option<&impl IsA<gio::Cancellable>>, progress_callback: P) -> Result<Results, glib::Error> {
-        let progress_callback_data: P = progress_callback;
-        unsafe extern "C" fn progress_callback_func<P: FnMut(&Progress, &ProgressType)>(progress: *mut ffi::PkProgress, type_: ffi::PkProgressType, user_data: glib::ffi::gpointer) {
-            let progress = from_glib_borrow(progress);
-            let type_ = from_glib_borrow(type_);
-            let callback = user_data as *mut P;
-            (*callback)(&progress, &type_)
-        }
-        let progress_callback = Some(progress_callback_func::<P> as _);
-        let super_callback0: &P = &progress_callback_data;
-        unsafe {
-            let mut error = std::ptr::null_mut();
-            let ret = ffi::pk_task_get_repo_list_sync(self.as_ref().to_glib_none().0, filters, cancellable.map(|p| p.as_ref()).to_glib_none().0, progress_callback, super_callback0 as *const _ as *mut _, &mut error);
-            if error.is_null() { Ok(from_glib_full(ret)) } else { Err(from_glib_full(error)) }
-        }
-    }
+    //
+    //#[cfg(feature = "v0_6_5")]
+    //#[cfg_attr(docsrs, doc(cfg(feature = "v0_6_5")))]
+    //#[cfg(not(feature = "v0_5_2"))]
+    //#[cfg_attr(docsrs, doc(cfg(not(feature = "v0_5_2"))))]
+    //fn repo_list_future(&self, filters: Bitfield, progress_callback: /*Unimplemented*/Fn(&Progress, /*Ignored*/ProgressType), callback_ready: AsyncReadyCallback) -> Pin<Box_<dyn std::future::Future<Output = > + 'static>> {
+
+        //let callback_ready = callback_ready.map(ToOwned::to_owned);
+        //Box_::pin(gio::GioFuture::new(self, move |obj, cancellable, send| {
+        //    obj.repo_list_async(
+        //        filters,
+        //        Some(cancellable),
+        //        progress_callback,
+        //        callback_ready.as_ref().map(::std::borrow::Borrow::borrow),
+        //        move |res| {
+        //            send.resolve(res);
+        //        },
+        //    );
+        //}))
+    //}
+
+    //#[cfg(feature = "v0_6_5")]
+    //#[cfg_attr(docsrs, doc(cfg(feature = "v0_6_5")))]
+    //#[doc(alias = "pk_task_get_repo_list_sync")]
+    //#[doc(alias = "get_repo_list_sync")]
+    //fn repo_list_sync(&self, filters: Bitfield, cancellable: Option<&impl IsA<gio::Cancellable>>, progress_callback: /*Unimplemented*/FnMut(&Progress, /*Ignored*/ProgressType), progress_user_data: /*Unimplemented*/Option<Basic: Pointer>) -> Result<Results, glib::Error> {
+    //    unsafe { TODO: call ffi:pk_task_get_repo_list_sync() }
+    //}
 
     /// Gets if we are simulating.
     ///
@@ -459,43 +418,39 @@ pub trait TaskExt: IsA<Task> + sealed::Sealed + 'static {
     //#[cfg_attr(docsrs, doc(cfg(not(feature = "v0_5_2"))))]
     //#[doc(alias = "pk_task_get_update_detail_async")]
     //#[doc(alias = "get_update_detail_async")]
-    //fn update_detail_async<P: Fn(&Progress, &ProgressType) + 'static>(&self, package_ids: &[&str], cancellable: Option<&impl IsA<gio::Cancellable>>, progress_callback: P, callback_ready: AsyncReadyCallback) {
+    //fn update_detail_async(&self, package_ids: &[&str], cancellable: Option<&impl IsA<gio::Cancellable>>, progress_callback: /*Unimplemented*/Fn(&Progress, /*Ignored*/ProgressType), callback_ready: AsyncReadyCallback) {
     //    unsafe { TODO: call ffi:pk_task_get_update_detail_async() }
     //}
 
-    /// Gets details about updates.
-    /// ## `package_ids`
-    /// a null terminated array of package_id structures such as "hal;0.0.1;i386;fedora"
-    /// ## `cancellable`
-    /// a [`gio::Cancellable`][crate::gio::Cancellable] or [`None`]
-    /// ## `progress_callback`
-    /// the function to run when the progress changes
-    /// ## `progress_user_data`
-    /// data to pass to `progress_callback`
-    ///
-    /// # Returns
-    ///
-    /// a [`Results`][crate::Results] object, or [`None`] for error
-    #[cfg(feature = "v0_6_5")]
-    #[cfg_attr(docsrs, doc(cfg(feature = "v0_6_5")))]
-    #[doc(alias = "pk_task_get_update_detail_sync")]
-    #[doc(alias = "get_update_detail_sync")]
-    fn update_detail_sync<P: FnMut(&Progress, &ProgressType)>(&self, package_ids: &[&str], cancellable: Option<&impl IsA<gio::Cancellable>>, progress_callback: P) -> Result<Results, glib::Error> {
-        let progress_callback_data: P = progress_callback;
-        unsafe extern "C" fn progress_callback_func<P: FnMut(&Progress, &ProgressType)>(progress: *mut ffi::PkProgress, type_: ffi::PkProgressType, user_data: glib::ffi::gpointer) {
-            let progress = from_glib_borrow(progress);
-            let type_ = from_glib_borrow(type_);
-            let callback = user_data as *mut P;
-            (*callback)(&progress, &type_)
-        }
-        let progress_callback = Some(progress_callback_func::<P> as _);
-        let super_callback0: &P = &progress_callback_data;
-        unsafe {
-            let mut error = std::ptr::null_mut();
-            let ret = ffi::pk_task_get_update_detail_sync(self.as_ref().to_glib_none().0, package_ids.to_glib_none().0, cancellable.map(|p| p.as_ref()).to_glib_none().0, progress_callback, super_callback0 as *const _ as *mut _, &mut error);
-            if error.is_null() { Ok(from_glib_full(ret)) } else { Err(from_glib_full(error)) }
-        }
-    }
+    //
+    //#[cfg(feature = "v0_6_5")]
+    //#[cfg_attr(docsrs, doc(cfg(feature = "v0_6_5")))]
+    //#[cfg(not(feature = "v0_5_2"))]
+    //#[cfg_attr(docsrs, doc(cfg(not(feature = "v0_5_2"))))]
+    //fn update_detail_future(&self, package_ids: &[&str], progress_callback: /*Unimplemented*/Fn(&Progress, /*Ignored*/ProgressType), callback_ready: AsyncReadyCallback) -> Pin<Box_<dyn std::future::Future<Output = > + 'static>> {
+
+        //let package_ids = package_ids.clone();
+        //let callback_ready = callback_ready.map(ToOwned::to_owned);
+        //Box_::pin(gio::GioFuture::new(self, move |obj, cancellable, send| {
+        //    obj.update_detail_async(
+        //        &package_ids,
+        //        Some(cancellable),
+        //        progress_callback,
+        //        callback_ready.as_ref().map(::std::borrow::Borrow::borrow),
+        //        move |res| {
+        //            send.resolve(res);
+        //        },
+        //    );
+        //}))
+    //}
+
+    //#[cfg(feature = "v0_6_5")]
+    //#[cfg_attr(docsrs, doc(cfg(feature = "v0_6_5")))]
+    //#[doc(alias = "pk_task_get_update_detail_sync")]
+    //#[doc(alias = "get_update_detail_sync")]
+    //fn update_detail_sync(&self, package_ids: &[&str], cancellable: Option<&impl IsA<gio::Cancellable>>, progress_callback: /*Unimplemented*/FnMut(&Progress, /*Ignored*/ProgressType), progress_user_data: /*Unimplemented*/Option<Basic: Pointer>) -> Result<Results, glib::Error> {
+    //    unsafe { TODO: call ffi:pk_task_get_update_detail_sync() }
+    //}
 
     //#[cfg(feature = "v0_6_5")]
     //#[cfg_attr(docsrs, doc(cfg(feature = "v0_6_5")))]
@@ -503,573 +458,485 @@ pub trait TaskExt: IsA<Task> + sealed::Sealed + 'static {
     //#[cfg_attr(docsrs, doc(cfg(not(feature = "v0_5_2"))))]
     //#[doc(alias = "pk_task_get_updates_async")]
     //#[doc(alias = "get_updates_async")]
-    //fn updates_async<P: Fn(&Progress, &ProgressType) + 'static>(&self, filters: Bitfield, cancellable: Option<&impl IsA<gio::Cancellable>>, progress_callback: P, callback_ready: AsyncReadyCallback) {
+    //fn updates_async(&self, filters: Bitfield, cancellable: Option<&impl IsA<gio::Cancellable>>, progress_callback: /*Unimplemented*/Fn(&Progress, /*Ignored*/ProgressType), callback_ready: AsyncReadyCallback) {
     //    unsafe { TODO: call ffi:pk_task_get_updates_async() }
     //}
 
-    /// Gets the update lists.
-    /// ## `filters`
-    /// a bitfield of filters that can be used to limit the results
-    /// ## `cancellable`
-    /// a [`gio::Cancellable`][crate::gio::Cancellable] or [`None`]
-    /// ## `progress_callback`
-    /// the function to run when the progress changes
-    /// ## `progress_user_data`
-    /// data to pass to `progress_callback`
-    ///
-    /// # Returns
-    ///
-    /// a [`Results`][crate::Results] object, or [`None`] for error
-    #[cfg(feature = "v0_6_5")]
-    #[cfg_attr(docsrs, doc(cfg(feature = "v0_6_5")))]
-    #[doc(alias = "pk_task_get_updates_sync")]
-    #[doc(alias = "get_updates_sync")]
-    fn updates_sync<P: FnMut(&Progress, &ProgressType)>(&self, filters: Bitfield, cancellable: Option<&impl IsA<gio::Cancellable>>, progress_callback: P) -> Result<Results, glib::Error> {
-        let progress_callback_data: P = progress_callback;
-        unsafe extern "C" fn progress_callback_func<P: FnMut(&Progress, &ProgressType)>(progress: *mut ffi::PkProgress, type_: ffi::PkProgressType, user_data: glib::ffi::gpointer) {
-            let progress = from_glib_borrow(progress);
-            let type_ = from_glib_borrow(type_);
-            let callback = user_data as *mut P;
-            (*callback)(&progress, &type_)
-        }
-        let progress_callback = Some(progress_callback_func::<P> as _);
-        let super_callback0: &P = &progress_callback_data;
-        unsafe {
-            let mut error = std::ptr::null_mut();
-            let ret = ffi::pk_task_get_updates_sync(self.as_ref().to_glib_none().0, filters, cancellable.map(|p| p.as_ref()).to_glib_none().0, progress_callback, super_callback0 as *const _ as *mut _, &mut error);
-            if error.is_null() { Ok(from_glib_full(ret)) } else { Err(from_glib_full(error)) }
-        }
-    }
+    //
+    //#[cfg(feature = "v0_6_5")]
+    //#[cfg_attr(docsrs, doc(cfg(feature = "v0_6_5")))]
+    //#[cfg(not(feature = "v0_5_2"))]
+    //#[cfg_attr(docsrs, doc(cfg(not(feature = "v0_5_2"))))]
+    //fn updates_future(&self, filters: Bitfield, progress_callback: /*Unimplemented*/Fn(&Progress, /*Ignored*/ProgressType), callback_ready: AsyncReadyCallback) -> Pin<Box_<dyn std::future::Future<Output = > + 'static>> {
+
+        //let callback_ready = callback_ready.map(ToOwned::to_owned);
+        //Box_::pin(gio::GioFuture::new(self, move |obj, cancellable, send| {
+        //    obj.updates_async(
+        //        filters,
+        //        Some(cancellable),
+        //        progress_callback,
+        //        callback_ready.as_ref().map(::std::borrow::Borrow::borrow),
+        //        move |res| {
+        //            send.resolve(res);
+        //        },
+        //    );
+        //}))
+    //}
+
+    //#[cfg(feature = "v0_6_5")]
+    //#[cfg_attr(docsrs, doc(cfg(feature = "v0_6_5")))]
+    //#[doc(alias = "pk_task_get_updates_sync")]
+    //#[doc(alias = "get_updates_sync")]
+    //fn updates_sync(&self, filters: Bitfield, cancellable: Option<&impl IsA<gio::Cancellable>>, progress_callback: /*Unimplemented*/FnMut(&Progress, /*Ignored*/ProgressType), progress_user_data: /*Unimplemented*/Option<Basic: Pointer>) -> Result<Results, glib::Error> {
+    //    unsafe { TODO: call ffi:pk_task_get_updates_sync() }
+    //}
 
     //#[cfg(feature = "v0_5_2")]
     //#[cfg_attr(docsrs, doc(cfg(feature = "v0_5_2")))]
     //#[doc(alias = "pk_task_install_files_async")]
-    //fn install_files_async<P: Fn(&Progress, &ProgressType) + 'static>(&self, files: &[&str], cancellable: Option<&impl IsA<gio::Cancellable>>, progress_callback: P, callback_ready: AsyncReadyCallback) {
+    //fn install_files_async(&self, files: &[&str], cancellable: Option<&impl IsA<gio::Cancellable>>, progress_callback: /*Unimplemented*/Fn(&Progress, /*Ignored*/ProgressType), callback_ready: AsyncReadyCallback) {
     //    unsafe { TODO: call ffi:pk_task_install_files_async() }
     //}
 
-    /// Install a file locally, and get the deps from the repositories.
-    /// This is useful for double clicking on a .rpm or .deb file.
-    ///
-    /// Warning: this function is synchronous, and may block. Do not use it in GUI
-    /// applications.
-    /// ## `files`
-    /// a file such as "/home/hughsie/Desktop/hal-devel-0.10.0.rpm"
-    /// ## `cancellable`
-    /// a [`gio::Cancellable`][crate::gio::Cancellable] or [`None`]
-    /// ## `progress_callback`
-    /// the function to run when the progress changes
-    /// ## `progress_user_data`
-    /// data to pass to `progress_callback`
-    ///
-    /// # Returns
-    ///
-    /// a [`Results`][crate::Results] object, or [`None`] for error
-    #[cfg(feature = "v0_5_3")]
-    #[cfg_attr(docsrs, doc(cfg(feature = "v0_5_3")))]
-    #[doc(alias = "pk_task_install_files_sync")]
-    fn install_files_sync<P: FnMut(&Progress, &ProgressType)>(&self, files: &[&str], cancellable: Option<&impl IsA<gio::Cancellable>>, progress_callback: P) -> Result<Results, glib::Error> {
-        let progress_callback_data: P = progress_callback;
-        unsafe extern "C" fn progress_callback_func<P: FnMut(&Progress, &ProgressType)>(progress: *mut ffi::PkProgress, type_: ffi::PkProgressType, user_data: glib::ffi::gpointer) {
-            let progress = from_glib_borrow(progress);
-            let type_ = from_glib_borrow(type_);
-            let callback = user_data as *mut P;
-            (*callback)(&progress, &type_)
-        }
-        let progress_callback = Some(progress_callback_func::<P> as _);
-        let super_callback0: &P = &progress_callback_data;
-        unsafe {
-            let mut error = std::ptr::null_mut();
-            let ret = ffi::pk_task_install_files_sync(self.as_ref().to_glib_none().0, files.to_glib_none().0, cancellable.map(|p| p.as_ref()).to_glib_none().0, progress_callback, super_callback0 as *const _ as *mut _, &mut error);
-            if error.is_null() { Ok(from_glib_full(ret)) } else { Err(from_glib_full(error)) }
-        }
-    }
+    //
+    //#[cfg(feature = "v0_5_2")]
+    //#[cfg_attr(docsrs, doc(cfg(feature = "v0_5_2")))]
+    //fn install_files_future(&self, files: &[&str], progress_callback: /*Unimplemented*/Fn(&Progress, /*Ignored*/ProgressType), callback_ready: AsyncReadyCallback) -> Pin<Box_<dyn std::future::Future<Output = > + 'static>> {
+
+        //let files = files.clone();
+        //let callback_ready = callback_ready.map(ToOwned::to_owned);
+        //Box_::pin(gio::GioFuture::new(self, move |obj, cancellable, send| {
+        //    obj.install_files_async(
+        //        &files,
+        //        Some(cancellable),
+        //        progress_callback,
+        //        callback_ready.as_ref().map(::std::borrow::Borrow::borrow),
+        //        move |res| {
+        //            send.resolve(res);
+        //        },
+        //    );
+        //}))
+    //}
+
+    //#[cfg(feature = "v0_5_3")]
+    //#[cfg_attr(docsrs, doc(cfg(feature = "v0_5_3")))]
+    //#[doc(alias = "pk_task_install_files_sync")]
+    //fn install_files_sync(&self, files: &[&str], cancellable: Option<&impl IsA<gio::Cancellable>>, progress_callback: /*Unimplemented*/FnMut(&Progress, /*Ignored*/ProgressType), progress_user_data: /*Unimplemented*/Option<Basic: Pointer>) -> Result<Results, glib::Error> {
+    //    unsafe { TODO: call ffi:pk_task_install_files_sync() }
+    //}
 
     //#[cfg(feature = "v0_5_2")]
     //#[cfg_attr(docsrs, doc(cfg(feature = "v0_5_2")))]
     //#[doc(alias = "pk_task_install_packages_async")]
-    //fn install_packages_async<P: Fn(&Progress, &ProgressType) + 'static>(&self, package_ids: &[&str], cancellable: Option<&impl IsA<gio::Cancellable>>, progress_callback: P, callback_ready: AsyncReadyCallback) {
+    //fn install_packages_async(&self, package_ids: &[&str], cancellable: Option<&impl IsA<gio::Cancellable>>, progress_callback: /*Unimplemented*/Fn(&Progress, /*Ignored*/ProgressType), callback_ready: AsyncReadyCallback) {
     //    unsafe { TODO: call ffi:pk_task_install_packages_async() }
     //}
 
-    /// Install a package of the newest and most correct version.
-    ///
-    /// Warning: this function is synchronous, and may block. Do not use it in GUI
-    /// applications.
-    /// ## `package_ids`
-    /// a null terminated array of package_id structures such as "hal;0.0.1;i386;fedora"
-    /// ## `cancellable`
-    /// a [`gio::Cancellable`][crate::gio::Cancellable] or [`None`]
-    /// ## `progress_callback`
-    /// the function to run when the progress changes
-    /// ## `progress_user_data`
-    /// data to pass to `progress_callback`
-    ///
-    /// # Returns
-    ///
-    /// a [`Results`][crate::Results] object, or [`None`] for error
-    #[cfg(feature = "v0_5_3")]
-    #[cfg_attr(docsrs, doc(cfg(feature = "v0_5_3")))]
-    #[doc(alias = "pk_task_install_packages_sync")]
-    fn install_packages_sync<P: FnMut(&Progress, &ProgressType)>(&self, package_ids: &[&str], cancellable: Option<&impl IsA<gio::Cancellable>>, progress_callback: P) -> Result<Results, glib::Error> {
-        let progress_callback_data: P = progress_callback;
-        unsafe extern "C" fn progress_callback_func<P: FnMut(&Progress, &ProgressType)>(progress: *mut ffi::PkProgress, type_: ffi::PkProgressType, user_data: glib::ffi::gpointer) {
-            let progress = from_glib_borrow(progress);
-            let type_ = from_glib_borrow(type_);
-            let callback = user_data as *mut P;
-            (*callback)(&progress, &type_)
-        }
-        let progress_callback = Some(progress_callback_func::<P> as _);
-        let super_callback0: &P = &progress_callback_data;
-        unsafe {
-            let mut error = std::ptr::null_mut();
-            let ret = ffi::pk_task_install_packages_sync(self.as_ref().to_glib_none().0, package_ids.to_glib_none().0, cancellable.map(|p| p.as_ref()).to_glib_none().0, progress_callback, super_callback0 as *const _ as *mut _, &mut error);
-            if error.is_null() { Ok(from_glib_full(ret)) } else { Err(from_glib_full(error)) }
-        }
-    }
+    //
+    //#[cfg(feature = "v0_5_2")]
+    //#[cfg_attr(docsrs, doc(cfg(feature = "v0_5_2")))]
+    //fn install_packages_future(&self, package_ids: &[&str], progress_callback: /*Unimplemented*/Fn(&Progress, /*Ignored*/ProgressType), callback_ready: AsyncReadyCallback) -> Pin<Box_<dyn std::future::Future<Output = > + 'static>> {
+
+        //let package_ids = package_ids.clone();
+        //let callback_ready = callback_ready.map(ToOwned::to_owned);
+        //Box_::pin(gio::GioFuture::new(self, move |obj, cancellable, send| {
+        //    obj.install_packages_async(
+        //        &package_ids,
+        //        Some(cancellable),
+        //        progress_callback,
+        //        callback_ready.as_ref().map(::std::borrow::Borrow::borrow),
+        //        move |res| {
+        //            send.resolve(res);
+        //        },
+        //    );
+        //}))
+    //}
+
+    //#[cfg(feature = "v0_5_3")]
+    //#[cfg_attr(docsrs, doc(cfg(feature = "v0_5_3")))]
+    //#[doc(alias = "pk_task_install_packages_sync")]
+    //fn install_packages_sync(&self, package_ids: &[&str], cancellable: Option<&impl IsA<gio::Cancellable>>, progress_callback: /*Unimplemented*/FnMut(&Progress, /*Ignored*/ProgressType), progress_user_data: /*Unimplemented*/Option<Basic: Pointer>) -> Result<Results, glib::Error> {
+    //    unsafe { TODO: call ffi:pk_task_install_packages_sync() }
+    //}
 
     //#[cfg(feature = "v0_6_5")]
     //#[cfg_attr(docsrs, doc(cfg(feature = "v0_6_5")))]
     //#[cfg(not(feature = "v0_5_2"))]
     //#[cfg_attr(docsrs, doc(cfg(not(feature = "v0_5_2"))))]
     //#[doc(alias = "pk_task_refresh_cache_async")]
-    //fn refresh_cache_async<P: Fn(&Progress, &ProgressType) + 'static>(&self, force: bool, cancellable: Option<&impl IsA<gio::Cancellable>>, progress_callback: P, callback_ready: AsyncReadyCallback) {
+    //fn refresh_cache_async(&self, force: bool, cancellable: Option<&impl IsA<gio::Cancellable>>, progress_callback: /*Unimplemented*/Fn(&Progress, /*Ignored*/ProgressType), callback_ready: AsyncReadyCallback) {
     //    unsafe { TODO: call ffi:pk_task_refresh_cache_async() }
     //}
 
-    /// Refresh the package cache.
-    /// ## `force`
-    /// if the metadata should be deleted and re-downloaded even if it is correct
-    /// ## `cancellable`
-    /// a [`gio::Cancellable`][crate::gio::Cancellable] or [`None`]
-    /// ## `progress_callback`
-    /// the function to run when the progress changes
-    /// ## `progress_user_data`
-    /// data to pass to `progress_callback`
-    ///
-    /// # Returns
-    ///
-    /// a [`Results`][crate::Results] object, or [`None`] for error
-    #[cfg(feature = "v0_6_5")]
-    #[cfg_attr(docsrs, doc(cfg(feature = "v0_6_5")))]
-    #[doc(alias = "pk_task_refresh_cache_sync")]
-    fn refresh_cache_sync<P: FnMut(&Progress, &ProgressType)>(&self, force: bool, cancellable: Option<&impl IsA<gio::Cancellable>>, progress_callback: P) -> Result<Results, glib::Error> {
-        let progress_callback_data: P = progress_callback;
-        unsafe extern "C" fn progress_callback_func<P: FnMut(&Progress, &ProgressType)>(progress: *mut ffi::PkProgress, type_: ffi::PkProgressType, user_data: glib::ffi::gpointer) {
-            let progress = from_glib_borrow(progress);
-            let type_ = from_glib_borrow(type_);
-            let callback = user_data as *mut P;
-            (*callback)(&progress, &type_)
-        }
-        let progress_callback = Some(progress_callback_func::<P> as _);
-        let super_callback0: &P = &progress_callback_data;
-        unsafe {
-            let mut error = std::ptr::null_mut();
-            let ret = ffi::pk_task_refresh_cache_sync(self.as_ref().to_glib_none().0, force.into_glib(), cancellable.map(|p| p.as_ref()).to_glib_none().0, progress_callback, super_callback0 as *const _ as *mut _, &mut error);
-            if error.is_null() { Ok(from_glib_full(ret)) } else { Err(from_glib_full(error)) }
-        }
-    }
+    //
+    //#[cfg(feature = "v0_6_5")]
+    //#[cfg_attr(docsrs, doc(cfg(feature = "v0_6_5")))]
+    //#[cfg(not(feature = "v0_5_2"))]
+    //#[cfg_attr(docsrs, doc(cfg(not(feature = "v0_5_2"))))]
+    //fn refresh_cache_future(&self, force: bool, progress_callback: /*Unimplemented*/Fn(&Progress, /*Ignored*/ProgressType), callback_ready: AsyncReadyCallback) -> Pin<Box_<dyn std::future::Future<Output = > + 'static>> {
+
+        //let callback_ready = callback_ready.map(ToOwned::to_owned);
+        //Box_::pin(gio::GioFuture::new(self, move |obj, cancellable, send| {
+        //    obj.refresh_cache_async(
+        //        force,
+        //        Some(cancellable),
+        //        progress_callback,
+        //        callback_ready.as_ref().map(::std::borrow::Borrow::borrow),
+        //        move |res| {
+        //            send.resolve(res);
+        //        },
+        //    );
+        //}))
+    //}
+
+    //#[cfg(feature = "v0_6_5")]
+    //#[cfg_attr(docsrs, doc(cfg(feature = "v0_6_5")))]
+    //#[doc(alias = "pk_task_refresh_cache_sync")]
+    //fn refresh_cache_sync(&self, force: bool, cancellable: Option<&impl IsA<gio::Cancellable>>, progress_callback: /*Unimplemented*/FnMut(&Progress, /*Ignored*/ProgressType), progress_user_data: /*Unimplemented*/Option<Basic: Pointer>) -> Result<Results, glib::Error> {
+    //    unsafe { TODO: call ffi:pk_task_refresh_cache_sync() }
+    //}
 
     //#[cfg(feature = "v0_5_2")]
     //#[cfg_attr(docsrs, doc(cfg(feature = "v0_5_2")))]
     //#[doc(alias = "pk_task_remove_packages_async")]
-    //fn remove_packages_async<P: Fn(&Progress, &ProgressType) + 'static>(&self, package_ids: &[&str], allow_deps: bool, autoremove: bool, cancellable: Option<&impl IsA<gio::Cancellable>>, progress_callback: P, callback_ready: AsyncReadyCallback) {
+    //fn remove_packages_async(&self, package_ids: &[&str], allow_deps: bool, autoremove: bool, cancellable: Option<&impl IsA<gio::Cancellable>>, progress_callback: /*Unimplemented*/Fn(&Progress, /*Ignored*/ProgressType), callback_ready: AsyncReadyCallback) {
     //    unsafe { TODO: call ffi:pk_task_remove_packages_async() }
     //}
 
-    /// Remove a package (optionally with dependancies) from the system.
-    /// If `allow_deps` is set to [`false`], and other packages would have to be removed,
-    /// then the transaction would fail.
-    ///
-    /// Warning: this function is synchronous, and may block. Do not use it in GUI
-    /// applications.
-    /// ## `package_ids`
-    /// a null terminated array of package_id structures such as "hal;0.0.1;i386;fedora"
-    /// ## `allow_deps`
-    /// if other dependent packages are allowed to be removed from the computer
-    /// ## `autoremove`
-    /// if other packages installed at the same time should be tried to remove
-    /// ## `cancellable`
-    /// a [`gio::Cancellable`][crate::gio::Cancellable] or [`None`]
-    /// ## `progress_callback`
-    /// the function to run when the progress changes
-    /// ## `progress_user_data`
-    /// data to pass to `progress_callback`
-    ///
-    /// # Returns
-    ///
-    /// a [`Results`][crate::Results] object, or [`None`] for error
-    #[cfg(feature = "v0_5_3")]
-    #[cfg_attr(docsrs, doc(cfg(feature = "v0_5_3")))]
-    #[doc(alias = "pk_task_remove_packages_sync")]
-    fn remove_packages_sync<P: FnMut(&Progress, &ProgressType)>(&self, package_ids: &[&str], allow_deps: bool, autoremove: bool, cancellable: Option<&impl IsA<gio::Cancellable>>, progress_callback: P) -> Result<Results, glib::Error> {
-        let progress_callback_data: P = progress_callback;
-        unsafe extern "C" fn progress_callback_func<P: FnMut(&Progress, &ProgressType)>(progress: *mut ffi::PkProgress, type_: ffi::PkProgressType, user_data: glib::ffi::gpointer) {
-            let progress = from_glib_borrow(progress);
-            let type_ = from_glib_borrow(type_);
-            let callback = user_data as *mut P;
-            (*callback)(&progress, &type_)
-        }
-        let progress_callback = Some(progress_callback_func::<P> as _);
-        let super_callback0: &P = &progress_callback_data;
-        unsafe {
-            let mut error = std::ptr::null_mut();
-            let ret = ffi::pk_task_remove_packages_sync(self.as_ref().to_glib_none().0, package_ids.to_glib_none().0, allow_deps.into_glib(), autoremove.into_glib(), cancellable.map(|p| p.as_ref()).to_glib_none().0, progress_callback, super_callback0 as *const _ as *mut _, &mut error);
-            if error.is_null() { Ok(from_glib_full(ret)) } else { Err(from_glib_full(error)) }
-        }
-    }
+    //
+    //#[cfg(feature = "v0_5_2")]
+    //#[cfg_attr(docsrs, doc(cfg(feature = "v0_5_2")))]
+    //fn remove_packages_future(&self, package_ids: &[&str], allow_deps: bool, autoremove: bool, progress_callback: /*Unimplemented*/Fn(&Progress, /*Ignored*/ProgressType), callback_ready: AsyncReadyCallback) -> Pin<Box_<dyn std::future::Future<Output = > + 'static>> {
+
+        //let package_ids = package_ids.clone();
+        //let callback_ready = callback_ready.map(ToOwned::to_owned);
+        //Box_::pin(gio::GioFuture::new(self, move |obj, cancellable, send| {
+        //    obj.remove_packages_async(
+        //        &package_ids,
+        //        allow_deps,
+        //        autoremove,
+        //        Some(cancellable),
+        //        progress_callback,
+        //        callback_ready.as_ref().map(::std::borrow::Borrow::borrow),
+        //        move |res| {
+        //            send.resolve(res);
+        //        },
+        //    );
+        //}))
+    //}
+
+    //#[cfg(feature = "v0_5_3")]
+    //#[cfg_attr(docsrs, doc(cfg(feature = "v0_5_3")))]
+    //#[doc(alias = "pk_task_remove_packages_sync")]
+    //fn remove_packages_sync(&self, package_ids: &[&str], allow_deps: bool, autoremove: bool, cancellable: Option<&impl IsA<gio::Cancellable>>, progress_callback: /*Unimplemented*/FnMut(&Progress, /*Ignored*/ProgressType), progress_user_data: /*Unimplemented*/Option<Basic: Pointer>) -> Result<Results, glib::Error> {
+    //    unsafe { TODO: call ffi:pk_task_remove_packages_sync() }
+    //}
 
     //#[cfg(feature = "v0_7_2")]
     //#[cfg_attr(docsrs, doc(cfg(feature = "v0_7_2")))]
     //#[doc(alias = "pk_task_repair_system_async")]
-    //fn repair_system_async<P: Fn(&Progress, &ProgressType) + 'static>(&self, cancellable: Option<&impl IsA<gio::Cancellable>>, progress_callback: P, callback_ready: AsyncReadyCallback) {
+    //fn repair_system_async(&self, cancellable: Option<&impl IsA<gio::Cancellable>>, progress_callback: /*Unimplemented*/Fn(&Progress, /*Ignored*/ProgressType), callback_ready: AsyncReadyCallback) {
     //    unsafe { TODO: call ffi:pk_task_repair_system_async() }
     //}
 
-    /// Recover from broken dependencies of installed packages or incomplete
-    /// installations.
-    ///
-    /// Warning: this function is synchronous, and may block. Do not use it in GUI
-    /// applications.
-    /// ## `cancellable`
-    /// a [`gio::Cancellable`][crate::gio::Cancellable] or [`None`]
-    /// ## `progress_callback`
-    /// the function to run when the progress changes
-    /// ## `progress_user_data`
-    /// data to pass to `progress_callback`
-    ///
-    /// # Returns
-    ///
-    /// a [`Results`][crate::Results] object, or [`None`] for error
-    #[cfg(feature = "v0_7_2")]
-    #[cfg_attr(docsrs, doc(cfg(feature = "v0_7_2")))]
-    #[doc(alias = "pk_task_repair_system_sync")]
-    fn repair_system_sync<P: FnMut(&Progress, &ProgressType)>(&self, cancellable: Option<&impl IsA<gio::Cancellable>>, progress_callback: P) -> Result<Results, glib::Error> {
-        let progress_callback_data: P = progress_callback;
-        unsafe extern "C" fn progress_callback_func<P: FnMut(&Progress, &ProgressType)>(progress: *mut ffi::PkProgress, type_: ffi::PkProgressType, user_data: glib::ffi::gpointer) {
-            let progress = from_glib_borrow(progress);
-            let type_ = from_glib_borrow(type_);
-            let callback = user_data as *mut P;
-            (*callback)(&progress, &type_)
-        }
-        let progress_callback = Some(progress_callback_func::<P> as _);
-        let super_callback0: &P = &progress_callback_data;
-        unsafe {
-            let mut error = std::ptr::null_mut();
-            let ret = ffi::pk_task_repair_system_sync(self.as_ref().to_glib_none().0, cancellable.map(|p| p.as_ref()).to_glib_none().0, progress_callback, super_callback0 as *const _ as *mut _, &mut error);
-            if error.is_null() { Ok(from_glib_full(ret)) } else { Err(from_glib_full(error)) }
-        }
-    }
+    //
+    //#[cfg(feature = "v0_7_2")]
+    //#[cfg_attr(docsrs, doc(cfg(feature = "v0_7_2")))]
+    //fn repair_system_future(&self, progress_callback: /*Unimplemented*/Fn(&Progress, /*Ignored*/ProgressType), callback_ready: AsyncReadyCallback) -> Pin<Box_<dyn std::future::Future<Output = > + 'static>> {
+
+        //let callback_ready = callback_ready.map(ToOwned::to_owned);
+        //Box_::pin(gio::GioFuture::new(self, move |obj, cancellable, send| {
+        //    obj.repair_system_async(
+        //        Some(cancellable),
+        //        progress_callback,
+        //        callback_ready.as_ref().map(::std::borrow::Borrow::borrow),
+        //        move |res| {
+        //            send.resolve(res);
+        //        },
+        //    );
+        //}))
+    //}
+
+    //#[cfg(feature = "v0_7_2")]
+    //#[cfg_attr(docsrs, doc(cfg(feature = "v0_7_2")))]
+    //#[doc(alias = "pk_task_repair_system_sync")]
+    //fn repair_system_sync(&self, cancellable: Option<&impl IsA<gio::Cancellable>>, progress_callback: /*Unimplemented*/FnMut(&Progress, /*Ignored*/ProgressType), progress_user_data: /*Unimplemented*/Option<Basic: Pointer>) -> Result<Results, glib::Error> {
+    //    unsafe { TODO: call ffi:pk_task_repair_system_sync() }
+    //}
 
     //#[cfg(feature = "v0_6_5")]
     //#[cfg_attr(docsrs, doc(cfg(feature = "v0_6_5")))]
     //#[cfg(not(feature = "v0_5_2"))]
     //#[cfg_attr(docsrs, doc(cfg(not(feature = "v0_5_2"))))]
     //#[doc(alias = "pk_task_repo_enable_async")]
-    //fn repo_enable_async<P: Fn(&Progress, &ProgressType) + 'static>(&self, repo_id: &str, enabled: bool, cancellable: Option<&impl IsA<gio::Cancellable>>, progress_callback: P, callback_ready: AsyncReadyCallback) {
+    //fn repo_enable_async(&self, repo_id: &str, enabled: bool, cancellable: Option<&impl IsA<gio::Cancellable>>, progress_callback: /*Unimplemented*/Fn(&Progress, /*Ignored*/ProgressType), callback_ready: AsyncReadyCallback) {
     //    unsafe { TODO: call ffi:pk_task_repo_enable_async() }
     //}
 
-    /// Enable or disable a specific repo.
-    /// ## `repo_id`
-    /// The software repository ID
-    /// ## `enabled`
-    /// [`true`] or [`false`]
-    /// ## `cancellable`
-    /// a [`gio::Cancellable`][crate::gio::Cancellable] or [`None`]
-    /// ## `progress_callback`
-    /// the function to run when the progress changes
-    /// ## `progress_user_data`
-    /// data to pass to `progress_callback`
-    ///
-    /// # Returns
-    ///
-    /// a [`Results`][crate::Results] object, or [`None`] for error
-    #[cfg(feature = "v0_6_5")]
-    #[cfg_attr(docsrs, doc(cfg(feature = "v0_6_5")))]
-    #[doc(alias = "pk_task_repo_enable_sync")]
-    fn repo_enable_sync<P: FnMut(&Progress, &ProgressType)>(&self, repo_id: &str, enabled: bool, cancellable: Option<&impl IsA<gio::Cancellable>>, progress_callback: P) -> Result<Results, glib::Error> {
-        let progress_callback_data: P = progress_callback;
-        unsafe extern "C" fn progress_callback_func<P: FnMut(&Progress, &ProgressType)>(progress: *mut ffi::PkProgress, type_: ffi::PkProgressType, user_data: glib::ffi::gpointer) {
-            let progress = from_glib_borrow(progress);
-            let type_ = from_glib_borrow(type_);
-            let callback = user_data as *mut P;
-            (*callback)(&progress, &type_)
-        }
-        let progress_callback = Some(progress_callback_func::<P> as _);
-        let super_callback0: &P = &progress_callback_data;
-        unsafe {
-            let mut error = std::ptr::null_mut();
-            let ret = ffi::pk_task_repo_enable_sync(self.as_ref().to_glib_none().0, repo_id.to_glib_none().0, enabled.into_glib(), cancellable.map(|p| p.as_ref()).to_glib_none().0, progress_callback, super_callback0 as *const _ as *mut _, &mut error);
-            if error.is_null() { Ok(from_glib_full(ret)) } else { Err(from_glib_full(error)) }
-        }
-    }
+    //
+    //#[cfg(feature = "v0_6_5")]
+    //#[cfg_attr(docsrs, doc(cfg(feature = "v0_6_5")))]
+    //#[cfg(not(feature = "v0_5_2"))]
+    //#[cfg_attr(docsrs, doc(cfg(not(feature = "v0_5_2"))))]
+    //fn repo_enable_future(&self, repo_id: &str, enabled: bool, progress_callback: /*Unimplemented*/Fn(&Progress, /*Ignored*/ProgressType), callback_ready: AsyncReadyCallback) -> Pin<Box_<dyn std::future::Future<Output = > + 'static>> {
+
+        //let repo_id = String::from(repo_id);
+        //let callback_ready = callback_ready.map(ToOwned::to_owned);
+        //Box_::pin(gio::GioFuture::new(self, move |obj, cancellable, send| {
+        //    obj.repo_enable_async(
+        //        &repo_id,
+        //        enabled,
+        //        Some(cancellable),
+        //        progress_callback,
+        //        callback_ready.as_ref().map(::std::borrow::Borrow::borrow),
+        //        move |res| {
+        //            send.resolve(res);
+        //        },
+        //    );
+        //}))
+    //}
+
+    //#[cfg(feature = "v0_6_5")]
+    //#[cfg_attr(docsrs, doc(cfg(feature = "v0_6_5")))]
+    //#[doc(alias = "pk_task_repo_enable_sync")]
+    //fn repo_enable_sync(&self, repo_id: &str, enabled: bool, cancellable: Option<&impl IsA<gio::Cancellable>>, progress_callback: /*Unimplemented*/FnMut(&Progress, /*Ignored*/ProgressType), progress_user_data: /*Unimplemented*/Option<Basic: Pointer>) -> Result<Results, glib::Error> {
+    //    unsafe { TODO: call ffi:pk_task_repo_enable_sync() }
+    //}
 
     //#[cfg(feature = "v0_6_5")]
     //#[cfg_attr(docsrs, doc(cfg(feature = "v0_6_5")))]
     //#[cfg(not(feature = "v0_5_2"))]
     //#[cfg_attr(docsrs, doc(cfg(not(feature = "v0_5_2"))))]
     //#[doc(alias = "pk_task_required_by_async")]
-    //fn required_by_async<P: Fn(&Progress, &ProgressType) + 'static>(&self, filters: Bitfield, package_ids: &[&str], recursive: bool, cancellable: Option<&impl IsA<gio::Cancellable>>, progress_callback: P, callback_ready: AsyncReadyCallback) {
+    //fn required_by_async(&self, filters: Bitfield, package_ids: &[&str], recursive: bool, cancellable: Option<&impl IsA<gio::Cancellable>>, progress_callback: /*Unimplemented*/Fn(&Progress, /*Ignored*/ProgressType), callback_ready: AsyncReadyCallback) {
     //    unsafe { TODO: call ffi:pk_task_required_by_async() }
     //}
 
-    /// Get the packages this package requires.
-    /// ## `filters`
-    /// a bitfield of filters that can be used to limit the results
-    /// ## `package_ids`
-    /// a null terminated array of package_id structures such as "hal;0.0.1;i386;fedora"
-    /// ## `recursive`
-    /// if we should return packages that depend on the ones we do
-    /// ## `cancellable`
-    /// a [`gio::Cancellable`][crate::gio::Cancellable] or [`None`]
-    /// ## `progress_callback`
-    /// the function to run when the progress changes
-    /// ## `progress_user_data`
-    /// data to pass to `progress_callback`
-    ///
-    /// # Returns
-    ///
-    /// a [`Results`][crate::Results] object, or [`None`] for error
-    #[cfg(feature = "v0_6_5")]
-    #[cfg_attr(docsrs, doc(cfg(feature = "v0_6_5")))]
-    #[doc(alias = "pk_task_required_by_sync")]
-    fn required_by_sync<P: FnMut(&Progress, &ProgressType)>(&self, filters: Bitfield, package_ids: &[&str], recursive: bool, cancellable: Option<&impl IsA<gio::Cancellable>>, progress_callback: P) -> Result<Results, glib::Error> {
-        let progress_callback_data: P = progress_callback;
-        unsafe extern "C" fn progress_callback_func<P: FnMut(&Progress, &ProgressType)>(progress: *mut ffi::PkProgress, type_: ffi::PkProgressType, user_data: glib::ffi::gpointer) {
-            let progress = from_glib_borrow(progress);
-            let type_ = from_glib_borrow(type_);
-            let callback = user_data as *mut P;
-            (*callback)(&progress, &type_)
-        }
-        let progress_callback = Some(progress_callback_func::<P> as _);
-        let super_callback0: &P = &progress_callback_data;
-        unsafe {
-            let mut error = std::ptr::null_mut();
-            let ret = ffi::pk_task_required_by_sync(self.as_ref().to_glib_none().0, filters, package_ids.to_glib_none().0, recursive.into_glib(), cancellable.map(|p| p.as_ref()).to_glib_none().0, progress_callback, super_callback0 as *const _ as *mut _, &mut error);
-            if error.is_null() { Ok(from_glib_full(ret)) } else { Err(from_glib_full(error)) }
-        }
-    }
+    //
+    //#[cfg(feature = "v0_6_5")]
+    //#[cfg_attr(docsrs, doc(cfg(feature = "v0_6_5")))]
+    //#[cfg(not(feature = "v0_5_2"))]
+    //#[cfg_attr(docsrs, doc(cfg(not(feature = "v0_5_2"))))]
+    //fn required_by_future(&self, filters: Bitfield, package_ids: &[&str], recursive: bool, progress_callback: /*Unimplemented*/Fn(&Progress, /*Ignored*/ProgressType), callback_ready: AsyncReadyCallback) -> Pin<Box_<dyn std::future::Future<Output = > + 'static>> {
+
+        //let package_ids = package_ids.clone();
+        //let callback_ready = callback_ready.map(ToOwned::to_owned);
+        //Box_::pin(gio::GioFuture::new(self, move |obj, cancellable, send| {
+        //    obj.required_by_async(
+        //        filters,
+        //        &package_ids,
+        //        recursive,
+        //        Some(cancellable),
+        //        progress_callback,
+        //        callback_ready.as_ref().map(::std::borrow::Borrow::borrow),
+        //        move |res| {
+        //            send.resolve(res);
+        //        },
+        //    );
+        //}))
+    //}
+
+    //#[cfg(feature = "v0_6_5")]
+    //#[cfg_attr(docsrs, doc(cfg(feature = "v0_6_5")))]
+    //#[doc(alias = "pk_task_required_by_sync")]
+    //fn required_by_sync(&self, filters: Bitfield, package_ids: &[&str], recursive: bool, cancellable: Option<&impl IsA<gio::Cancellable>>, progress_callback: /*Unimplemented*/FnMut(&Progress, /*Ignored*/ProgressType), progress_user_data: /*Unimplemented*/Option<Basic: Pointer>) -> Result<Results, glib::Error> {
+    //    unsafe { TODO: call ffi:pk_task_required_by_sync() }
+    //}
 
     //#[cfg(feature = "v0_6_5")]
     //#[cfg_attr(docsrs, doc(cfg(feature = "v0_6_5")))]
     //#[cfg(not(feature = "v0_5_2"))]
     //#[cfg_attr(docsrs, doc(cfg(not(feature = "v0_5_2"))))]
     //#[doc(alias = "pk_task_resolve_async")]
-    //fn resolve_async<P: Fn(&Progress, &ProgressType) + 'static>(&self, filters: Bitfield, packages: &[&str], cancellable: Option<&impl IsA<gio::Cancellable>>, progress_callback: P, callback_ready: AsyncReadyCallback) {
+    //fn resolve_async(&self, filters: Bitfield, packages: &[&str], cancellable: Option<&impl IsA<gio::Cancellable>>, progress_callback: /*Unimplemented*/Fn(&Progress, /*Ignored*/ProgressType), callback_ready: AsyncReadyCallback) {
     //    unsafe { TODO: call ffi:pk_task_resolve_async() }
     //}
 
-    /// Resolves a package name to a package-id.
-    /// ## `filters`
-    /// a bitfield of filters that can be used to limit the results
-    /// ## `packages`
-    /// package names to find
-    /// ## `cancellable`
-    /// a [`gio::Cancellable`][crate::gio::Cancellable] or [`None`]
-    /// ## `progress_callback`
-    /// the function to run when the progress changes
-    /// ## `progress_user_data`
-    /// data to pass to `progress_callback`
-    ///
-    /// # Returns
-    ///
-    /// a [`Results`][crate::Results] object, or [`None`] for error
-    #[cfg(feature = "v0_6_5")]
-    #[cfg_attr(docsrs, doc(cfg(feature = "v0_6_5")))]
-    #[doc(alias = "pk_task_resolve_sync")]
-    fn resolve_sync<P: FnMut(&Progress, &ProgressType)>(&self, filters: Bitfield, packages: &[&str], cancellable: Option<&impl IsA<gio::Cancellable>>, progress_callback: P) -> Result<Results, glib::Error> {
-        let progress_callback_data: P = progress_callback;
-        unsafe extern "C" fn progress_callback_func<P: FnMut(&Progress, &ProgressType)>(progress: *mut ffi::PkProgress, type_: ffi::PkProgressType, user_data: glib::ffi::gpointer) {
-            let progress = from_glib_borrow(progress);
-            let type_ = from_glib_borrow(type_);
-            let callback = user_data as *mut P;
-            (*callback)(&progress, &type_)
-        }
-        let progress_callback = Some(progress_callback_func::<P> as _);
-        let super_callback0: &P = &progress_callback_data;
-        unsafe {
-            let mut error = std::ptr::null_mut();
-            let ret = ffi::pk_task_resolve_sync(self.as_ref().to_glib_none().0, filters, packages.to_glib_none().0, cancellable.map(|p| p.as_ref()).to_glib_none().0, progress_callback, super_callback0 as *const _ as *mut _, &mut error);
-            if error.is_null() { Ok(from_glib_full(ret)) } else { Err(from_glib_full(error)) }
-        }
-    }
+    //
+    //#[cfg(feature = "v0_6_5")]
+    //#[cfg_attr(docsrs, doc(cfg(feature = "v0_6_5")))]
+    //#[cfg(not(feature = "v0_5_2"))]
+    //#[cfg_attr(docsrs, doc(cfg(not(feature = "v0_5_2"))))]
+    //fn resolve_future(&self, filters: Bitfield, packages: &[&str], progress_callback: /*Unimplemented*/Fn(&Progress, /*Ignored*/ProgressType), callback_ready: AsyncReadyCallback) -> Pin<Box_<dyn std::future::Future<Output = > + 'static>> {
+
+        //let packages = packages.clone();
+        //let callback_ready = callback_ready.map(ToOwned::to_owned);
+        //Box_::pin(gio::GioFuture::new(self, move |obj, cancellable, send| {
+        //    obj.resolve_async(
+        //        filters,
+        //        &packages,
+        //        Some(cancellable),
+        //        progress_callback,
+        //        callback_ready.as_ref().map(::std::borrow::Borrow::borrow),
+        //        move |res| {
+        //            send.resolve(res);
+        //        },
+        //    );
+        //}))
+    //}
+
+    //#[cfg(feature = "v0_6_5")]
+    //#[cfg_attr(docsrs, doc(cfg(feature = "v0_6_5")))]
+    //#[doc(alias = "pk_task_resolve_sync")]
+    //fn resolve_sync(&self, filters: Bitfield, packages: &[&str], cancellable: Option<&impl IsA<gio::Cancellable>>, progress_callback: /*Unimplemented*/FnMut(&Progress, /*Ignored*/ProgressType), progress_user_data: /*Unimplemented*/Option<Basic: Pointer>) -> Result<Results, glib::Error> {
+    //    unsafe { TODO: call ffi:pk_task_resolve_sync() }
+    //}
 
     //#[cfg(feature = "v0_6_5")]
     //#[cfg_attr(docsrs, doc(cfg(feature = "v0_6_5")))]
     //#[cfg(not(feature = "v0_5_5"))]
     //#[cfg_attr(docsrs, doc(cfg(not(feature = "v0_5_5"))))]
     //#[doc(alias = "pk_task_search_details_async")]
-    //fn search_details_async<P: Fn(&Progress, &ProgressType) + 'static>(&self, filters: Bitfield, values: &[&str], cancellable: Option<&impl IsA<gio::Cancellable>>, progress_callback: P, callback_ready: AsyncReadyCallback) {
+    //fn search_details_async(&self, filters: Bitfield, values: &[&str], cancellable: Option<&impl IsA<gio::Cancellable>>, progress_callback: /*Unimplemented*/Fn(&Progress, /*Ignored*/ProgressType), callback_ready: AsyncReadyCallback) {
     //    unsafe { TODO: call ffi:pk_task_search_details_async() }
     //}
 
-    /// Searches for some package details.
-    /// ## `filters`
-    /// a bitfield of filters that can be used to limit the results
-    /// ## `values`
-    /// search values
-    /// ## `cancellable`
-    /// a [`gio::Cancellable`][crate::gio::Cancellable] or [`None`]
-    /// ## `progress_callback`
-    /// the function to run when the progress changes
-    /// ## `progress_user_data`
-    /// data to pass to `progress_callback`
-    ///
-    /// # Returns
-    ///
-    /// a [`Results`][crate::Results] object, or [`None`] for error
-    #[cfg(feature = "v0_6_5")]
-    #[cfg_attr(docsrs, doc(cfg(feature = "v0_6_5")))]
-    #[doc(alias = "pk_task_search_details_sync")]
-    fn search_details_sync<P: FnMut(&Progress, &ProgressType)>(&self, filters: Bitfield, values: &[&str], cancellable: Option<&impl IsA<gio::Cancellable>>, progress_callback: P) -> Result<Results, glib::Error> {
-        let progress_callback_data: P = progress_callback;
-        unsafe extern "C" fn progress_callback_func<P: FnMut(&Progress, &ProgressType)>(progress: *mut ffi::PkProgress, type_: ffi::PkProgressType, user_data: glib::ffi::gpointer) {
-            let progress = from_glib_borrow(progress);
-            let type_ = from_glib_borrow(type_);
-            let callback = user_data as *mut P;
-            (*callback)(&progress, &type_)
-        }
-        let progress_callback = Some(progress_callback_func::<P> as _);
-        let super_callback0: &P = &progress_callback_data;
-        unsafe {
-            let mut error = std::ptr::null_mut();
-            let ret = ffi::pk_task_search_details_sync(self.as_ref().to_glib_none().0, filters, values.to_glib_none().0, cancellable.map(|p| p.as_ref()).to_glib_none().0, progress_callback, super_callback0 as *const _ as *mut _, &mut error);
-            if error.is_null() { Ok(from_glib_full(ret)) } else { Err(from_glib_full(error)) }
-        }
-    }
+    //
+    //#[cfg(feature = "v0_6_5")]
+    //#[cfg_attr(docsrs, doc(cfg(feature = "v0_6_5")))]
+    //#[cfg(not(feature = "v0_5_5"))]
+    //#[cfg_attr(docsrs, doc(cfg(not(feature = "v0_5_5"))))]
+    //fn search_details_future(&self, filters: Bitfield, values: &[&str], progress_callback: /*Unimplemented*/Fn(&Progress, /*Ignored*/ProgressType), callback_ready: AsyncReadyCallback) -> Pin<Box_<dyn std::future::Future<Output = > + 'static>> {
+
+        //let values = values.clone();
+        //let callback_ready = callback_ready.map(ToOwned::to_owned);
+        //Box_::pin(gio::GioFuture::new(self, move |obj, cancellable, send| {
+        //    obj.search_details_async(
+        //        filters,
+        //        &values,
+        //        Some(cancellable),
+        //        progress_callback,
+        //        callback_ready.as_ref().map(::std::borrow::Borrow::borrow),
+        //        move |res| {
+        //            send.resolve(res);
+        //        },
+        //    );
+        //}))
+    //}
+
+    //#[cfg(feature = "v0_6_5")]
+    //#[cfg_attr(docsrs, doc(cfg(feature = "v0_6_5")))]
+    //#[doc(alias = "pk_task_search_details_sync")]
+    //fn search_details_sync(&self, filters: Bitfield, values: &[&str], cancellable: Option<&impl IsA<gio::Cancellable>>, progress_callback: /*Unimplemented*/FnMut(&Progress, /*Ignored*/ProgressType), progress_user_data: /*Unimplemented*/Option<Basic: Pointer>) -> Result<Results, glib::Error> {
+    //    unsafe { TODO: call ffi:pk_task_search_details_sync() }
+    //}
 
     //#[cfg(feature = "v0_6_5")]
     //#[cfg_attr(docsrs, doc(cfg(feature = "v0_6_5")))]
     //#[cfg(not(feature = "v0_5_5"))]
     //#[cfg_attr(docsrs, doc(cfg(not(feature = "v0_5_5"))))]
     //#[doc(alias = "pk_task_search_files_async")]
-    //fn search_files_async<P: Fn(&Progress, &ProgressType) + 'static>(&self, filters: Bitfield, values: &[&str], cancellable: Option<&impl IsA<gio::Cancellable>>, progress_callback: P, callback_ready: AsyncReadyCallback) {
+    //fn search_files_async(&self, filters: Bitfield, values: &[&str], cancellable: Option<&impl IsA<gio::Cancellable>>, progress_callback: /*Unimplemented*/Fn(&Progress, /*Ignored*/ProgressType), callback_ready: AsyncReadyCallback) {
     //    unsafe { TODO: call ffi:pk_task_search_files_async() }
     //}
 
-    /// Searches for specific files.
-    /// ## `filters`
-    /// a bitfield of filters that can be used to limit the results
-    /// ## `values`
-    /// search values
-    /// ## `cancellable`
-    /// a [`gio::Cancellable`][crate::gio::Cancellable] or [`None`]
-    /// ## `progress_callback`
-    /// the function to run when the progress changes
-    /// ## `progress_user_data`
-    /// data to pass to `progress_callback`
-    ///
-    /// # Returns
-    ///
-    /// a [`Results`][crate::Results] object, or [`None`] for error
-    #[cfg(feature = "v0_6_5")]
-    #[cfg_attr(docsrs, doc(cfg(feature = "v0_6_5")))]
-    #[doc(alias = "pk_task_search_files_sync")]
-    fn search_files_sync<P: FnMut(&Progress, &ProgressType)>(&self, filters: Bitfield, values: &[&str], cancellable: Option<&impl IsA<gio::Cancellable>>, progress_callback: P) -> Result<Results, glib::Error> {
-        let progress_callback_data: P = progress_callback;
-        unsafe extern "C" fn progress_callback_func<P: FnMut(&Progress, &ProgressType)>(progress: *mut ffi::PkProgress, type_: ffi::PkProgressType, user_data: glib::ffi::gpointer) {
-            let progress = from_glib_borrow(progress);
-            let type_ = from_glib_borrow(type_);
-            let callback = user_data as *mut P;
-            (*callback)(&progress, &type_)
-        }
-        let progress_callback = Some(progress_callback_func::<P> as _);
-        let super_callback0: &P = &progress_callback_data;
-        unsafe {
-            let mut error = std::ptr::null_mut();
-            let ret = ffi::pk_task_search_files_sync(self.as_ref().to_glib_none().0, filters, values.to_glib_none().0, cancellable.map(|p| p.as_ref()).to_glib_none().0, progress_callback, super_callback0 as *const _ as *mut _, &mut error);
-            if error.is_null() { Ok(from_glib_full(ret)) } else { Err(from_glib_full(error)) }
-        }
-    }
+    //
+    //#[cfg(feature = "v0_6_5")]
+    //#[cfg_attr(docsrs, doc(cfg(feature = "v0_6_5")))]
+    //#[cfg(not(feature = "v0_5_5"))]
+    //#[cfg_attr(docsrs, doc(cfg(not(feature = "v0_5_5"))))]
+    //fn search_files_future(&self, filters: Bitfield, values: &[&str], progress_callback: /*Unimplemented*/Fn(&Progress, /*Ignored*/ProgressType), callback_ready: AsyncReadyCallback) -> Pin<Box_<dyn std::future::Future<Output = > + 'static>> {
+
+        //let values = values.clone();
+        //let callback_ready = callback_ready.map(ToOwned::to_owned);
+        //Box_::pin(gio::GioFuture::new(self, move |obj, cancellable, send| {
+        //    obj.search_files_async(
+        //        filters,
+        //        &values,
+        //        Some(cancellable),
+        //        progress_callback,
+        //        callback_ready.as_ref().map(::std::borrow::Borrow::borrow),
+        //        move |res| {
+        //            send.resolve(res);
+        //        },
+        //    );
+        //}))
+    //}
+
+    //#[cfg(feature = "v0_6_5")]
+    //#[cfg_attr(docsrs, doc(cfg(feature = "v0_6_5")))]
+    //#[doc(alias = "pk_task_search_files_sync")]
+    //fn search_files_sync(&self, filters: Bitfield, values: &[&str], cancellable: Option<&impl IsA<gio::Cancellable>>, progress_callback: /*Unimplemented*/FnMut(&Progress, /*Ignored*/ProgressType), progress_user_data: /*Unimplemented*/Option<Basic: Pointer>) -> Result<Results, glib::Error> {
+    //    unsafe { TODO: call ffi:pk_task_search_files_sync() }
+    //}
 
     //#[cfg(feature = "v0_6_5")]
     //#[cfg_attr(docsrs, doc(cfg(feature = "v0_6_5")))]
     //#[cfg(not(feature = "v0_5_5"))]
     //#[cfg_attr(docsrs, doc(cfg(not(feature = "v0_5_5"))))]
     //#[doc(alias = "pk_task_search_groups_async")]
-    //fn search_groups_async<P: Fn(&Progress, &ProgressType) + 'static>(&self, filters: Bitfield, values: &[&str], cancellable: Option<&impl IsA<gio::Cancellable>>, progress_callback: P, callback_ready: AsyncReadyCallback) {
+    //fn search_groups_async(&self, filters: Bitfield, values: &[&str], cancellable: Option<&impl IsA<gio::Cancellable>>, progress_callback: /*Unimplemented*/Fn(&Progress, /*Ignored*/ProgressType), callback_ready: AsyncReadyCallback) {
     //    unsafe { TODO: call ffi:pk_task_search_groups_async() }
     //}
 
-    /// Searches the group lists.
-    /// ## `filters`
-    /// a bitfield of filters that can be used to limit the results
-    /// ## `values`
-    /// search values
-    /// ## `cancellable`
-    /// a [`gio::Cancellable`][crate::gio::Cancellable] or [`None`]
-    /// ## `progress_callback`
-    /// the function to run when the progress changes
-    /// ## `progress_user_data`
-    /// data to pass to `progress_callback`
-    ///
-    /// # Returns
-    ///
-    /// a [`Results`][crate::Results] object, or [`None`] for error
-    #[cfg(feature = "v0_6_5")]
-    #[cfg_attr(docsrs, doc(cfg(feature = "v0_6_5")))]
-    #[doc(alias = "pk_task_search_groups_sync")]
-    fn search_groups_sync<P: FnMut(&Progress, &ProgressType)>(&self, filters: Bitfield, values: &[&str], cancellable: Option<&impl IsA<gio::Cancellable>>, progress_callback: P) -> Result<Results, glib::Error> {
-        let progress_callback_data: P = progress_callback;
-        unsafe extern "C" fn progress_callback_func<P: FnMut(&Progress, &ProgressType)>(progress: *mut ffi::PkProgress, type_: ffi::PkProgressType, user_data: glib::ffi::gpointer) {
-            let progress = from_glib_borrow(progress);
-            let type_ = from_glib_borrow(type_);
-            let callback = user_data as *mut P;
-            (*callback)(&progress, &type_)
-        }
-        let progress_callback = Some(progress_callback_func::<P> as _);
-        let super_callback0: &P = &progress_callback_data;
-        unsafe {
-            let mut error = std::ptr::null_mut();
-            let ret = ffi::pk_task_search_groups_sync(self.as_ref().to_glib_none().0, filters, values.to_glib_none().0, cancellable.map(|p| p.as_ref()).to_glib_none().0, progress_callback, super_callback0 as *const _ as *mut _, &mut error);
-            if error.is_null() { Ok(from_glib_full(ret)) } else { Err(from_glib_full(error)) }
-        }
-    }
+    //
+    //#[cfg(feature = "v0_6_5")]
+    //#[cfg_attr(docsrs, doc(cfg(feature = "v0_6_5")))]
+    //#[cfg(not(feature = "v0_5_5"))]
+    //#[cfg_attr(docsrs, doc(cfg(not(feature = "v0_5_5"))))]
+    //fn search_groups_future(&self, filters: Bitfield, values: &[&str], progress_callback: /*Unimplemented*/Fn(&Progress, /*Ignored*/ProgressType), callback_ready: AsyncReadyCallback) -> Pin<Box_<dyn std::future::Future<Output = > + 'static>> {
+
+        //let values = values.clone();
+        //let callback_ready = callback_ready.map(ToOwned::to_owned);
+        //Box_::pin(gio::GioFuture::new(self, move |obj, cancellable, send| {
+        //    obj.search_groups_async(
+        //        filters,
+        //        &values,
+        //        Some(cancellable),
+        //        progress_callback,
+        //        callback_ready.as_ref().map(::std::borrow::Borrow::borrow),
+        //        move |res| {
+        //            send.resolve(res);
+        //        },
+        //    );
+        //}))
+    //}
+
+    //#[cfg(feature = "v0_6_5")]
+    //#[cfg_attr(docsrs, doc(cfg(feature = "v0_6_5")))]
+    //#[doc(alias = "pk_task_search_groups_sync")]
+    //fn search_groups_sync(&self, filters: Bitfield, values: &[&str], cancellable: Option<&impl IsA<gio::Cancellable>>, progress_callback: /*Unimplemented*/FnMut(&Progress, /*Ignored*/ProgressType), progress_user_data: /*Unimplemented*/Option<Basic: Pointer>) -> Result<Results, glib::Error> {
+    //    unsafe { TODO: call ffi:pk_task_search_groups_sync() }
+    //}
 
     //#[cfg(feature = "v0_6_5")]
     //#[cfg_attr(docsrs, doc(cfg(feature = "v0_6_5")))]
     //#[cfg(not(feature = "v0_5_5"))]
     //#[cfg_attr(docsrs, doc(cfg(not(feature = "v0_5_5"))))]
     //#[doc(alias = "pk_task_search_names_async")]
-    //fn search_names_async<P: Fn(&Progress, &ProgressType) + 'static>(&self, filters: Bitfield, values: &[&str], cancellable: Option<&impl IsA<gio::Cancellable>>, progress_callback: P, callback_ready: AsyncReadyCallback) {
+    //fn search_names_async(&self, filters: Bitfield, values: &[&str], cancellable: Option<&impl IsA<gio::Cancellable>>, progress_callback: /*Unimplemented*/Fn(&Progress, /*Ignored*/ProgressType), callback_ready: AsyncReadyCallback) {
     //    unsafe { TODO: call ffi:pk_task_search_names_async() }
     //}
 
-    /// Searches for a package name.
-    /// ## `filters`
-    /// a bitfield of filters that can be used to limit the results
-    /// ## `values`
-    /// search values
-    /// ## `cancellable`
-    /// a [`gio::Cancellable`][crate::gio::Cancellable] or [`None`]
-    /// ## `progress_callback`
-    /// the function to run when the progress changes
-    /// ## `progress_user_data`
-    /// data to pass to `progress_callback`
-    ///
-    /// # Returns
-    ///
-    /// a [`Results`][crate::Results] object, or [`None`] for error
-    #[cfg(feature = "v0_6_5")]
-    #[cfg_attr(docsrs, doc(cfg(feature = "v0_6_5")))]
-    #[doc(alias = "pk_task_search_names_sync")]
-    fn search_names_sync<P: FnMut(&Progress, &ProgressType)>(&self, filters: Bitfield, values: &[&str], cancellable: Option<&impl IsA<gio::Cancellable>>, progress_callback: P) -> Result<Results, glib::Error> {
-        let progress_callback_data: P = progress_callback;
-        unsafe extern "C" fn progress_callback_func<P: FnMut(&Progress, &ProgressType)>(progress: *mut ffi::PkProgress, type_: ffi::PkProgressType, user_data: glib::ffi::gpointer) {
-            let progress = from_glib_borrow(progress);
-            let type_ = from_glib_borrow(type_);
-            let callback = user_data as *mut P;
-            (*callback)(&progress, &type_)
-        }
-        let progress_callback = Some(progress_callback_func::<P> as _);
-        let super_callback0: &P = &progress_callback_data;
-        unsafe {
-            let mut error = std::ptr::null_mut();
-            let ret = ffi::pk_task_search_names_sync(self.as_ref().to_glib_none().0, filters, values.to_glib_none().0, cancellable.map(|p| p.as_ref()).to_glib_none().0, progress_callback, super_callback0 as *const _ as *mut _, &mut error);
-            if error.is_null() { Ok(from_glib_full(ret)) } else { Err(from_glib_full(error)) }
-        }
-    }
+    //
+    //#[cfg(feature = "v0_6_5")]
+    //#[cfg_attr(docsrs, doc(cfg(feature = "v0_6_5")))]
+    //#[cfg(not(feature = "v0_5_5"))]
+    //#[cfg_attr(docsrs, doc(cfg(not(feature = "v0_5_5"))))]
+    //fn search_names_future(&self, filters: Bitfield, values: &[&str], progress_callback: /*Unimplemented*/Fn(&Progress, /*Ignored*/ProgressType), callback_ready: AsyncReadyCallback) -> Pin<Box_<dyn std::future::Future<Output = > + 'static>> {
+
+        //let values = values.clone();
+        //let callback_ready = callback_ready.map(ToOwned::to_owned);
+        //Box_::pin(gio::GioFuture::new(self, move |obj, cancellable, send| {
+        //    obj.search_names_async(
+        //        filters,
+        //        &values,
+        //        Some(cancellable),
+        //        progress_callback,
+        //        callback_ready.as_ref().map(::std::borrow::Borrow::borrow),
+        //        move |res| {
+        //            send.resolve(res);
+        //        },
+        //    );
+        //}))
+    //}
+
+    //#[cfg(feature = "v0_6_5")]
+    //#[cfg_attr(docsrs, doc(cfg(feature = "v0_6_5")))]
+    //#[doc(alias = "pk_task_search_names_sync")]
+    //fn search_names_sync(&self, filters: Bitfield, values: &[&str], cancellable: Option<&impl IsA<gio::Cancellable>>, progress_callback: /*Unimplemented*/FnMut(&Progress, /*Ignored*/ProgressType), progress_user_data: /*Unimplemented*/Option<Basic: Pointer>) -> Result<Results, glib::Error> {
+    //    unsafe { TODO: call ffi:pk_task_search_names_sync() }
+    //}
 
     /// If package downgrades shall be allowed during transaction.
     /// ## `allow_downgrade`
@@ -1136,91 +1003,71 @@ pub trait TaskExt: IsA<Task> + sealed::Sealed + 'static {
     //#[cfg(feature = "v0_5_2")]
     //#[cfg_attr(docsrs, doc(cfg(feature = "v0_5_2")))]
     //#[doc(alias = "pk_task_update_packages_async")]
-    //fn update_packages_async<P: Fn(&Progress, &ProgressType) + 'static>(&self, package_ids: &[&str], cancellable: Option<&impl IsA<gio::Cancellable>>, progress_callback: P, callback_ready: AsyncReadyCallback) {
+    //fn update_packages_async(&self, package_ids: &[&str], cancellable: Option<&impl IsA<gio::Cancellable>>, progress_callback: /*Unimplemented*/Fn(&Progress, /*Ignored*/ProgressType), callback_ready: AsyncReadyCallback) {
     //    unsafe { TODO: call ffi:pk_task_update_packages_async() }
     //}
 
-    /// Update specific packages to the newest available versions.
-    ///
-    /// Warning: this function is synchronous, and may block. Do not use it in GUI
-    /// applications.
-    /// ## `package_ids`
-    /// a null terminated array of package_id structures such as "hal;0.0.1;i386;fedora"
-    /// ## `cancellable`
-    /// a [`gio::Cancellable`][crate::gio::Cancellable] or [`None`]
-    /// ## `progress_callback`
-    /// the function to run when the progress changes
-    /// ## `progress_user_data`
-    /// data to pass to `progress_callback`
-    ///
-    /// # Returns
-    ///
-    /// a [`Results`][crate::Results] object, or [`None`] for error
-    #[cfg(feature = "v0_5_3")]
-    #[cfg_attr(docsrs, doc(cfg(feature = "v0_5_3")))]
-    #[doc(alias = "pk_task_update_packages_sync")]
-    fn update_packages_sync<P: FnMut(&Progress, &ProgressType)>(&self, package_ids: &[&str], cancellable: Option<&impl IsA<gio::Cancellable>>, progress_callback: P) -> Result<Results, glib::Error> {
-        let progress_callback_data: P = progress_callback;
-        unsafe extern "C" fn progress_callback_func<P: FnMut(&Progress, &ProgressType)>(progress: *mut ffi::PkProgress, type_: ffi::PkProgressType, user_data: glib::ffi::gpointer) {
-            let progress = from_glib_borrow(progress);
-            let type_ = from_glib_borrow(type_);
-            let callback = user_data as *mut P;
-            (*callback)(&progress, &type_)
-        }
-        let progress_callback = Some(progress_callback_func::<P> as _);
-        let super_callback0: &P = &progress_callback_data;
-        unsafe {
-            let mut error = std::ptr::null_mut();
-            let ret = ffi::pk_task_update_packages_sync(self.as_ref().to_glib_none().0, package_ids.to_glib_none().0, cancellable.map(|p| p.as_ref()).to_glib_none().0, progress_callback, super_callback0 as *const _ as *mut _, &mut error);
-            if error.is_null() { Ok(from_glib_full(ret)) } else { Err(from_glib_full(error)) }
-        }
-    }
+    //
+    //#[cfg(feature = "v0_5_2")]
+    //#[cfg_attr(docsrs, doc(cfg(feature = "v0_5_2")))]
+    //fn update_packages_future(&self, package_ids: &[&str], progress_callback: /*Unimplemented*/Fn(&Progress, /*Ignored*/ProgressType), callback_ready: AsyncReadyCallback) -> Pin<Box_<dyn std::future::Future<Output = > + 'static>> {
+
+        //let package_ids = package_ids.clone();
+        //let callback_ready = callback_ready.map(ToOwned::to_owned);
+        //Box_::pin(gio::GioFuture::new(self, move |obj, cancellable, send| {
+        //    obj.update_packages_async(
+        //        &package_ids,
+        //        Some(cancellable),
+        //        progress_callback,
+        //        callback_ready.as_ref().map(::std::borrow::Borrow::borrow),
+        //        move |res| {
+        //            send.resolve(res);
+        //        },
+        //    );
+        //}))
+    //}
+
+    //#[cfg(feature = "v0_5_3")]
+    //#[cfg_attr(docsrs, doc(cfg(feature = "v0_5_3")))]
+    //#[doc(alias = "pk_task_update_packages_sync")]
+    //fn update_packages_sync(&self, package_ids: &[&str], cancellable: Option<&impl IsA<gio::Cancellable>>, progress_callback: /*Unimplemented*/FnMut(&Progress, /*Ignored*/ProgressType), progress_user_data: /*Unimplemented*/Option<Basic: Pointer>) -> Result<Results, glib::Error> {
+    //    unsafe { TODO: call ffi:pk_task_update_packages_sync() }
+    //}
 
     //#[cfg(feature = "v1_0_12")]
     //#[cfg_attr(docsrs, doc(cfg(feature = "v1_0_12")))]
     //#[doc(alias = "pk_task_upgrade_system_async")]
-    //fn upgrade_system_async<P: Fn(&Progress, &ProgressType) + 'static>(&self, distro_id: &str, upgrade_kind: UpgradeKindEnum, cancellable: Option<&impl IsA<gio::Cancellable>>, progress_callback: P, callback_ready: AsyncReadyCallback) {
+    //fn upgrade_system_async(&self, distro_id: &str, upgrade_kind: UpgradeKindEnum, cancellable: Option<&impl IsA<gio::Cancellable>>, progress_callback: /*Unimplemented*/Fn(&Progress, /*Ignored*/ProgressType), callback_ready: AsyncReadyCallback) {
     //    unsafe { TODO: call ffi:pk_task_upgrade_system_async() }
     //}
 
-    /// This transaction will update the distro to the next version, which may
-    /// involve just downloading the installer and setting up the boot device,
-    /// or may involve doing an on-line upgrade.
-    ///
-    /// The backend will decide what is best to do.
-    /// ## `distro_id`
-    /// a distro ID such as "fedora-14"
-    /// ## `upgrade_kind`
-    /// a [`UpgradeKindEnum`][crate::UpgradeKindEnum] such as [`UpgradeKindEnum::Complete`][crate::UpgradeKindEnum::Complete]
-    /// ## `cancellable`
-    /// a [`gio::Cancellable`][crate::gio::Cancellable] or [`None`]
-    /// ## `progress_callback`
-    /// the function to run when the progress changes
-    /// ## `progress_user_data`
-    /// data to pass to `progress_callback`
-    ///
-    /// # Returns
-    ///
-    /// a [`Results`][crate::Results] object, or [`None`] for error
-    #[cfg(feature = "v1_0_12")]
-    #[cfg_attr(docsrs, doc(cfg(feature = "v1_0_12")))]
-    #[doc(alias = "pk_task_upgrade_system_sync")]
-    fn upgrade_system_sync<P: FnMut(&Progress, &ProgressType)>(&self, distro_id: &str, upgrade_kind: UpgradeKindEnum, cancellable: Option<&impl IsA<gio::Cancellable>>, progress_callback: P) -> Result<Results, glib::Error> {
-        let progress_callback_data: P = progress_callback;
-        unsafe extern "C" fn progress_callback_func<P: FnMut(&Progress, &ProgressType)>(progress: *mut ffi::PkProgress, type_: ffi::PkProgressType, user_data: glib::ffi::gpointer) {
-            let progress = from_glib_borrow(progress);
-            let type_ = from_glib_borrow(type_);
-            let callback = user_data as *mut P;
-            (*callback)(&progress, &type_)
-        }
-        let progress_callback = Some(progress_callback_func::<P> as _);
-        let super_callback0: &P = &progress_callback_data;
-        unsafe {
-            let mut error = std::ptr::null_mut();
-            let ret = ffi::pk_task_upgrade_system_sync(self.as_ref().to_glib_none().0, distro_id.to_glib_none().0, upgrade_kind.into_glib(), cancellable.map(|p| p.as_ref()).to_glib_none().0, progress_callback, super_callback0 as *const _ as *mut _, &mut error);
-            if error.is_null() { Ok(from_glib_full(ret)) } else { Err(from_glib_full(error)) }
-        }
-    }
+    //
+    //#[cfg(feature = "v1_0_12")]
+    //#[cfg_attr(docsrs, doc(cfg(feature = "v1_0_12")))]
+    //fn upgrade_system_future(&self, distro_id: &str, upgrade_kind: UpgradeKindEnum, progress_callback: /*Unimplemented*/Fn(&Progress, /*Ignored*/ProgressType), callback_ready: AsyncReadyCallback) -> Pin<Box_<dyn std::future::Future<Output = > + 'static>> {
+
+        //let distro_id = String::from(distro_id);
+        //let callback_ready = callback_ready.map(ToOwned::to_owned);
+        //Box_::pin(gio::GioFuture::new(self, move |obj, cancellable, send| {
+        //    obj.upgrade_system_async(
+        //        &distro_id,
+        //        upgrade_kind,
+        //        Some(cancellable),
+        //        progress_callback,
+        //        callback_ready.as_ref().map(::std::borrow::Borrow::borrow),
+        //        move |res| {
+        //            send.resolve(res);
+        //        },
+        //    );
+        //}))
+    //}
+
+    //#[cfg(feature = "v1_0_12")]
+    //#[cfg_attr(docsrs, doc(cfg(feature = "v1_0_12")))]
+    //#[doc(alias = "pk_task_upgrade_system_sync")]
+    //fn upgrade_system_sync(&self, distro_id: &str, upgrade_kind: UpgradeKindEnum, cancellable: Option<&impl IsA<gio::Cancellable>>, progress_callback: /*Unimplemented*/FnMut(&Progress, /*Ignored*/ProgressType), progress_user_data: /*Unimplemented*/Option<Basic: Pointer>) -> Result<Results, glib::Error> {
+    //    unsafe { TODO: call ffi:pk_task_upgrade_system_sync() }
+    //}
 
     /// Mark a EULA as accepted by the user.
     /// ## `request`
@@ -1259,44 +1106,39 @@ pub trait TaskExt: IsA<Task> + sealed::Sealed + 'static {
     //#[cfg(not(feature = "v0_5_2"))]
     //#[cfg_attr(docsrs, doc(cfg(not(feature = "v0_5_2"))))]
     //#[doc(alias = "pk_task_what_provides_async")]
-    //fn what_provides_async<P: Fn(&Progress, &ProgressType) + 'static>(&self, filters: Bitfield, values: &[&str], cancellable: Option<&impl IsA<gio::Cancellable>>, progress_callback: P, callback_ready: AsyncReadyCallback) {
+    //fn what_provides_async(&self, filters: Bitfield, values: &[&str], cancellable: Option<&impl IsA<gio::Cancellable>>, progress_callback: /*Unimplemented*/Fn(&Progress, /*Ignored*/ProgressType), callback_ready: AsyncReadyCallback) {
     //    unsafe { TODO: call ffi:pk_task_what_provides_async() }
     //}
 
-    /// Find the package that provides some resource.
-    /// ## `filters`
-    /// a bitfield of filters that can be used to limit the results
-    /// ## `values`
-    /// values to search for
-    /// ## `cancellable`
-    /// a [`gio::Cancellable`][crate::gio::Cancellable] or [`None`]
-    /// ## `progress_callback`
-    /// the function to run when the progress changes
-    /// ## `progress_user_data`
-    /// data to pass to `progress_callback`
-    ///
-    /// # Returns
-    ///
-    /// a [`Results`][crate::Results] object, or [`None`] for error
-    #[cfg(feature = "v0_6_5")]
-    #[cfg_attr(docsrs, doc(cfg(feature = "v0_6_5")))]
-    #[doc(alias = "pk_task_what_provides_sync")]
-    fn what_provides_sync<P: FnMut(&Progress, &ProgressType)>(&self, filters: Bitfield, values: &[&str], cancellable: Option<&impl IsA<gio::Cancellable>>, progress_callback: P) -> Result<Results, glib::Error> {
-        let progress_callback_data: P = progress_callback;
-        unsafe extern "C" fn progress_callback_func<P: FnMut(&Progress, &ProgressType)>(progress: *mut ffi::PkProgress, type_: ffi::PkProgressType, user_data: glib::ffi::gpointer) {
-            let progress = from_glib_borrow(progress);
-            let type_ = from_glib_borrow(type_);
-            let callback = user_data as *mut P;
-            (*callback)(&progress, &type_)
-        }
-        let progress_callback = Some(progress_callback_func::<P> as _);
-        let super_callback0: &P = &progress_callback_data;
-        unsafe {
-            let mut error = std::ptr::null_mut();
-            let ret = ffi::pk_task_what_provides_sync(self.as_ref().to_glib_none().0, filters, values.to_glib_none().0, cancellable.map(|p| p.as_ref()).to_glib_none().0, progress_callback, super_callback0 as *const _ as *mut _, &mut error);
-            if error.is_null() { Ok(from_glib_full(ret)) } else { Err(from_glib_full(error)) }
-        }
-    }
+    //
+    //#[cfg(feature = "v0_6_5")]
+    //#[cfg_attr(docsrs, doc(cfg(feature = "v0_6_5")))]
+    //#[cfg(not(feature = "v0_5_2"))]
+    //#[cfg_attr(docsrs, doc(cfg(not(feature = "v0_5_2"))))]
+    //fn what_provides_future(&self, filters: Bitfield, values: &[&str], progress_callback: /*Unimplemented*/Fn(&Progress, /*Ignored*/ProgressType), callback_ready: AsyncReadyCallback) -> Pin<Box_<dyn std::future::Future<Output = > + 'static>> {
+
+        //let values = values.clone();
+        //let callback_ready = callback_ready.map(ToOwned::to_owned);
+        //Box_::pin(gio::GioFuture::new(self, move |obj, cancellable, send| {
+        //    obj.what_provides_async(
+        //        filters,
+        //        &values,
+        //        Some(cancellable),
+        //        progress_callback,
+        //        callback_ready.as_ref().map(::std::borrow::Borrow::borrow),
+        //        move |res| {
+        //            send.resolve(res);
+        //        },
+        //    );
+        //}))
+    //}
+
+    //#[cfg(feature = "v0_6_5")]
+    //#[cfg_attr(docsrs, doc(cfg(feature = "v0_6_5")))]
+    //#[doc(alias = "pk_task_what_provides_sync")]
+    //fn what_provides_sync(&self, filters: Bitfield, values: &[&str], cancellable: Option<&impl IsA<gio::Cancellable>>, progress_callback: /*Unimplemented*/FnMut(&Progress, /*Ignored*/ProgressType), progress_user_data: /*Unimplemented*/Option<Basic: Pointer>) -> Result<Results, glib::Error> {
+    //    unsafe { TODO: call ffi:pk_task_what_provides_sync() }
+    //}
 
     /// [`true`] if we are simulating.
     #[cfg(feature = "v0_5_2")]
