@@ -14,8 +14,7 @@ cargo run --manifest-path ../zbus/zbus_xmlgen/Cargo.toml --release -- \
 for file in *.rs
 do
     name="$(basename $file .rs)"
-    echo "pub use ${name}::*;" >> lib.rs
-    echo "mod ${name};" >> lib.rs
+    echo "pub mod ${name};" >> lib.rs
 done
 echo "pub use zbus;" >> lib.rs
 
