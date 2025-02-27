@@ -6,4 +6,4 @@ description = "DBus interfaces for PackageKit"
 license = "MIT OR Apache-2.0"
 
 [dependencies]
-zbus = "3"
+zbus = "5"
